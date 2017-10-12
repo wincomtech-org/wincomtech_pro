@@ -148,11 +148,11 @@ class OrderController extends MemberbaseController {
          * 2、用户扫描二维码，进行支付
          * 3、支付完成之后，微信服务器会通知支付成功
          * 4、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
-         */
+         */ 
        
-       require_once '/weixinpay3/lib/WxPayApi.php';
-       require_once '/weixinpay3/example/WxPayNativePay.php';
-       require_once '/weixinpay3/example/log.php';
+        require_once getcwd().'/weixinpay3/lib/WxPayApi.php';
+        require_once getcwd().'/weixinpay3/example/WxPayNativePay.php';
+        require_once getcwd().'/weixinpay3/example/log.php';
         $notify = new \NativePay();
         $input = new \WxPayUnifiedOrder();
         $input->SetBody($info['name']);
