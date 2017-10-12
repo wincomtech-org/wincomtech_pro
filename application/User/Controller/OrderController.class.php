@@ -143,7 +143,7 @@ class OrderController extends MemberbaseController {
         
         //获取微信支付二维码
         /**
-         * 流程：
+         * 流程：11
          * 1、调用统一下单，取得code_url，生成二维码
          * 2、用户扫描二维码，进行支付
          * 3、支付完成之后，微信服务器会通知支付成功
