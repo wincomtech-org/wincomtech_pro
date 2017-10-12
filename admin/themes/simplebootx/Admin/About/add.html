@@ -1,0 +1,79 @@
+<admintpl file="header" />
+
+<link href="__TMPL__Public/assets/css/zzinfo.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('index')}">{$pro}列表</a></li>
+			<li class="active"><a href="#">添加{$pro}</a></li>
+			
+		</ul>
+		<!-- js-ajax-form -->
+		<form class="form-horizontal js-ajax-form" method="post" action="{:U('add_do')}" >
+			<fieldset>
+				<div class="control-group fleft">
+					<span class="control-label" >类别：</span>
+					<div class="controls">
+						 <select name="cid" >
+			            	<foreach name="cate_list" item="vo">
+			            		<option value="{$vo.id}" <if condition="$scid eq $vo['id']">selected</if> >{$vo.level}&nbsp;{$vo.name}</option>
+			            	</foreach>
+			            </select>
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >排序：</span>
+					<div class="controls">
+						<input type="number" name="sort" value="0"  min="0" max="99" step="1"/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label">名称：</span>
+					<div class="controls">
+						<input type="text" name="name" value="" required />
+				
+					</div>
+				</div>
+				 
+				<div style="clear:both"></div>
+				 
+				<div class="control-group">
+					<span class="control-label" >主体内容：</span>
+					<div class="controls">
+						<textarea name="content"></textarea>
+					</div>
+				</div>
+				
+			
+				<div class="form-actions">
+					<input type="hidden" name="id" value="{$info.id}">
+					
+					<button type="submit" class="btn btn-primary js-ajax-submit" id="sub">
+						保存提交
+					</button>
+					<button type="reset" class="btn btn-primary js-ajax-submit">重置</button>
+					<a class="btn" href="javascript:history.back(-1);">返回</a>
+					
+				</div>	
+				
+				
+		
+			</fieldset>
+		</form>
+	</div>
+<script src="__PUBLIC__/js/common.js"></script> 
+
+<script>
+	
+function newPic(){
+	var oldPic=$.trim($('#old-pic').attr('src'));
+	var newPic=$.trim('__ROOT__/data/upload/'+$('#js-link-image').val());
+	if(newPic!=''&&newPic!=oldPic){
+		$('#old-pic').attr('src',newPic);
+	}
+	setTimeout("newPic()",500);
+}
+</script>
+</body>
+</html>

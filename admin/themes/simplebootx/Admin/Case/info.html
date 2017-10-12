@@ -1,0 +1,120 @@
+<admintpl file="header" />
+
+<link href="__TMPL__Public/assets/css/zzinfo.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('index')}">{$pro}列表</a></li>
+			<li><a href="{:U('add')}">添加{$pro}</a></li>
+			<li class="active"><a href="{:U('info')}">{$pro}详情</a></li>
+		</ul>
+		<!-- js-ajax-form -->
+		<form class="form-horizontal js-ajax-form" method="post" action="{:U('edit')}" >
+			<fieldset>
+				<div class="control-group fleft">
+					<span class="control-label" >Id：</span>
+					<div class="controls" >
+						
+						<input type="text" value="{$info.id}"  disabled />
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >排序：</span>
+					<div class="controls">
+						<input type="number" name="sort" value="{$info.sort}"  min="0" max="99" step="1"/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label">名称：</span>
+					<div class="controls">
+						<input type="text" name="name" value="{$info.name}" required />
+				
+					</div>
+				</div>
+				
+				<div class="control-group fleft">
+					<span class="control-label" >类别：</span>
+					<div class="controls">
+						 <select name="cid" >
+			            	<foreach name="cate_list" item="vo">
+			            		<option value="{$vo.id}" <if condition="$info['cid'] eq $vo['id']">selected</if> > {$vo.name}</option>
+			            	</foreach>
+			            </select>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >网址：</span>
+					<div class="controls">
+						<input type="text" name="website" value="{$info.website}" required/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >价格(￥)：</span>
+					<div class="controls">
+						<input type="number" name="price" value="{$info.price}" min="0"/>
+					</div>
+				</div>
+				
+				<div style="clear:both"></div>
+				<div class="control-group">
+					<span class="control-label" >图片：</span>
+					<div class="controls">
+						<img id="old-pic" src="__ROOT__/data/upload/{$info.pic}" alt="暂无图片" style="width:390px;height:270px"/>
+						<a href="javascript:upload_one_image('图片上传','#js-link-image');newPic();">上传新图片</a>
+						<input type="hidden" name="pic" value="{$info.pic}" id="js-link-image"> 
+						
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >简介：</span>
+					<div class="controls">
+						<textarea name="desc">{$info.desc}</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >详细资料：</span>
+					<div class="controls">
+						<textarea style="width:81%" name="content" id="content">{$info.content}</textarea>
+					</div>
+				</div>
+				
+			
+				<div class="form-actions">
+					<input type="hidden" name="id" value="{$info.id}">
+					
+					<button type="submit" class="btn btn-primary js-ajax-submit" id="sub">
+						保存提交
+					</button>
+					<button type="reset" class="btn btn-primary js-ajax-submit">重置</button>
+					<a class="btn" href="javascript:history.back(-1);">返回</a>
+					
+				</div>	
+				
+				
+		
+			</fieldset>
+		</form>
+	</div>
+<script src="__PUBLIC__/js/common.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+	
+	  //初始化百度编辑器
+       var ue = UE.getEditor('content');
+      
+</script>
+<script>
+	
+function newPic(){
+	var oldPic=$.trim($('#old-pic').attr('src'));
+	var newPic=$.trim('__ROOT__/data/upload/'+$('#js-link-image').val());
+	if(newPic!=''&&newPic!=oldPic){
+		$('#old-pic').attr('src',newPic);
+	}
+	setTimeout("newPic()",500);
+}
+</script>
+</body>
+</html>

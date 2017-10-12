@@ -1,0 +1,153 @@
+
+
+
+<!-- <script   type="text/javascript" src="js/jquery.superslide.2.1.2.js"></script> -->
+<script type="text/javascript" src="__TMPL__Public/js/nprogress.js"></script>
+<script src="__TMPL__Public/js/index2.js"></script>
+
+<header class="header clearfix">
+            <div class="nav-bar"> <a href="{:U('Portal/Index/index')}" class="logo fl"></a>
+	            <div class="header_right">
+	            <empty name="Think.session.user">
+	            	<div class="nofollow">
+		                <a href="{:U('user/login/index')}">登录</a>|
+		                <a href="{:U('user/register/index')}">注册</a>
+		            </div>
+                       
+               <else/>
+               	<div class="nofollow_denglu">
+	               <a href="{:U('user/order/index')}" >{$Think.session.user.user_nicename}</a>
+	            </div>
+             
+              </empty>
+		      
+                <nav class="nav fr">
+                    <div class="navigation-up">
+                        <div class="navigation-inner">
+                            <ul>
+                                <li class="nav-sub nav-up-selected-inpage"  _t_nav="product"> <a href="{:U('Portal/Index/index')}" class="tit" >首页</a>
+                                    <div class="nav-line"></div>
+                                </li>
+                                <li class="nav-sub" _t_nav="xkshop"> <a href="{:U('Portal/Product/list0')}" class="tit">产品展示</a>
+                                    <div class="nav-line"></div>
+                                </li>
+                                <li class="nav-sub" _t_nav="xkplus"> <a href="{:U('Portal/Template/list0')}" class="tit" >企业模板</a>
+                                    <div class="nav-line" ></div>
+                                </li>
+                                <li class="nav-sub" _t_nav="case"> <a href="{:U('Portal/Case/list0')}" class="tit" >客户案例</a>
+                                    <div class="nav-line"></div>
+                                </li>
+                                <li class="nav-sub" _t_nav="industry"> <a href="{:U('Portal/Offer/list0')}" class="tit" >产品报价</a>
+                                    <div class="nav-line" ></div>
+                                </li>
+                                
+                                
+                                <li class="nav-sub" _t_nav="news"> <a href="{:U('Portal/News/list0')}" class="tit" >新闻资讯</a>
+                                    <div class="nav-line" >
+                                </li>
+                                <li class="nav-sub" _t_nav="about"> <a href="{:U('Portal/About/list0')}" class="tit" >关于我们</a>
+                                    </div>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="navigation-down">
+                       
+                        <div id="xkshop" class="nav-down-menu" style="display: none;" _t_nav="xkshop">
+                            <div class="navigation-down-inner">
+                                <ul>
+                                <foreach name="Think.session.header.cate" item="vo">
+                                    <li><a href="{:U('Portal/Product/list0',array('cid'=>$vo['id']))}" class=''>{$vo.name}</a>
+                                        <div class="nav-line-d" ></div>
+                                    </li>
+                                </foreach>  
+                                <eq name="Think.session.header.cateCount" value="1">
+                                    <li><a href="{:U('Portal/Product/list0')}" class=''>更多</a>
+                                      <div class="nav-line-d" ></div>
+                                    </li>  
+                                 </eq>                      
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="xkplus" class="nav-down-menu" style="display: none;" _t_nav="xkplus">
+                            <div class="navigation-down-inner">
+                                <ul>
+                                 <foreach name="Think.session.header.tcate" item="vo">
+                                    <li><a href="{:U('Portal/Template/list0',array('cid'=>$vo['id']))}" class=''>{$vo.name}</a>
+                                        <div class="nav-line-d" ></div>
+                                    </li>
+                                  </foreach>                                 
+                                   <eq name="Think.session.header.tcateCount" value="1">
+                                    <li><a href="{:U('Portal/Template/list0')}" class=''>更多</a>
+                                      <div class="nav-line-d" ></div>
+                                    </li>  
+                                 </eq>                        
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="industry" class="nav-down-menu" style="display: none;" _t_nav="industry">
+                            <div class="navigation-down-inner">
+                                <ul>
+                                
+                                 <foreach name="Think.session.header.ocate" item="vo">
+                                    <li><a href="{:U('Portal/Offer/list0',array('cid'=>$vo['id']))}" class=''>{$vo.name}</a>
+                                        <div class="nav-line-d" ></div>
+                                    </li>
+                                  </foreach>                                 
+                                   <eq name="Think.session.header.ocateCount" value="1">
+                                    <li><a href="{:U('Portal/Offer/list0')}" class=''>更多</a>
+                                      <div class="nav-line-d" ></div>
+                                    </li>  
+                                 </eq>   
+                                                                    
+                                                           
+                                                                
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="news" class="nav-down-menu" style="display: none;" _t_nav="news">
+                            <div class="navigation-down-inner">
+                                <ul>
+                                <foreach name="Think.session.header.ncate" item="vo">
+                                    <li><a href="{:U('Portal/News/list0',array('cid'=>$vo['id']))}" class=''>{$vo.name}</a>
+                                        <div class="nav-line-d" ></div>
+                                    </li>
+                                </foreach>                                 
+                                 <eq name="Think.session.header.ncateCount" value="1">
+                                    <li><a href="{:U('Portal/News/list0')}" class=''>更多</a>
+                                      <div class="nav-line-d" ></div>
+                                    </li>  
+                                 </eq>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="about" class="nav-down-menu" style="display: none;" _t_nav="about">
+                            <div class="navigation-down-inner">
+                                <ul>
+                                <foreach name="Think.session.header.acate" item="vo">
+                                    <li><a href="{:U('Portal/About/list0',array('cid'=>$vo['id']))}" class=''>{$vo.name}</a>
+                                        <div class="nav-line-d" ></div>
+                                    </li>
+                                </foreach>                                 
+                                 <eq name="Think.session.header.acateCount" value="1">
+                                    <li><a href="{:U('Portal/About/list0')}" class=''>更多</a>
+                                      <div class="nav-line-d" ></div>
+                                    </li>  
+                                 </eq>
+                                </ul>
+                            </div>
+                        </div>
+                         
+                    </div>
+                </nav>
+            </div>
+         </div>
+</header>
+      <!---中间部分-->
+    <!--banner部分-->
+     
+        <style type="text/css" media="screen">
+            
+         </style>
+     

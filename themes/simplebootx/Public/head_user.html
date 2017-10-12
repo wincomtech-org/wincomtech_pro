@@ -1,0 +1,30 @@
+<tc_include file="Public:head" />
+</head>
+<body>
+	 <header class="nofllow_header">
+          <div class="main">
+              <div class=" lf">
+              		<a href="{:U('Portal/Index/index')}">
+              			<img src="__ROOT__/data/upload//{$company.logo.content}" alt="">
+              		</a>
+              </div>
+              <div class="lf login">
+              		<span>个人中心</span>
+              </div>
+             <div class="rt">
+             	<a href="{:U('User/Info/index')}">{$user.user_nicename}</a>
+             	<a href="{:U('user/index/logout')}">退出登录</a>
+             	<a href="{:U('Portal/Index/index')}">返回首页</a>
+             </div>
+          </div>
+    </header>
+	<section class="person_center">
+		<div class="main">
+				<div class="person_tit">
+					<ul class="person_tit_list">
+						<li <eq name="flag" value="info">class="active"</eq>><a href="{:U('User/Info/index')}" >个人信息</a></li>
+						<li <eq name="flag" value="order">class="active"</eq>><a href="{:U('User/Order/index')}">我的订单</a></li>
+						<li <eq name="flag" value="cart">class="active"</eq>><a href="{:U('User/Cart/index')}">购物车</a></li>
+						<li><a href="{:U('user/index/logout')}">退出登录</a></li>
+					</ul>
+				</div>

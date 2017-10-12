@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+ 
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->          
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+	<!-- END THEME STYLES -->
+	
+	 
+	
+</head>
+<!-- BEGIN BODY -->
+<body>
+
+
+<form target="_self" name="alipaysubmit" method="post" action="https://www.alipay.com/cooperate/gateway.do?_input_charset=utf-8">
+			<input type="text" name="_input_charset" value="<?php echo $alipay['_input_charset']?>" />
+			<input type="text" name="service" value="create_direct_pay_by_user">
+			<input type="text" name="partner" value="<?php echo $alipay['partner']?>">
+			<input type="text" name="return_url" value="<?php echo $alipay['return_url']?>"> 
+			<input type="text" name="notify_url" value="<?php echo $alipay['notify_url']?>">  s
+			<input type="text" name="subject" value="<?php echo $alipay['subject']?>"> 
+			<input type="text" name="body" value="<?php echo $alipay['body']?>">
+			<input type="text" name="out_trade_no" value="<?php echo $alipay['out_trade_no']?>">
+			<input type="text" name="total_fee" value="<?php echo $alipay['total_fee']?>">
+			<input type="text" name="payment_type" value="1">
+			<!-- <input type=hidden name="show_url" value="<?php echo $alipay['show_url']?>"> -->
+			<input type="text" name="seller_id" value="<?php echo $alipay['seller_id']?>">
+		 
+			<input type="text" name="sign_type" value="MD5">
+</form>
+<input  type='button' name='v_action' value='支付宝网上安全即时支付平台' onClick='alipaysubmit.submit()'>
+
+</body>
+</html>
+

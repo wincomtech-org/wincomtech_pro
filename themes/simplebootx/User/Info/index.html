@@ -1,0 +1,42 @@
+<tc_include file="Public:head_user" />
+				<div class="person_con">
+					<div class="person_con_tit">个人信息</div>
+					<div class="person_con_content">
+						<form action="{:U('edit')}" method="post" accept-charset="utf-8" class="person_con_form" id="personForm">
+							<div class="form_group_person">
+								<span class="name">昵称</span>
+								<input type="text" name="user_nicename" value="{$user_nicename}" required>
+							</div>
+							<div class="form_group_person">
+								<span class="name">手机号&nbsp;&nbsp;&nbsp;<span class="error" >*请填写正确手机格式</span></span>
+								<input type="text" name="mobile" value="{$mobile}" id="phone" required>
+							</div>
+							<input type="hidden" name="id" value="{$id}">
+							<p class="revise"><input type="submit" name="" value="修改"></p>
+						</form>
+					</div>
+				</div>
+		</div>
+	
+	</section>
+
+	<!-- 尾部 -->
+	 <tc_include file="Public:footer" />
+<script>
+
+$('#personForm .error').hide();
+$('#personForm').submit(function(){
+	var phone=$('#phone').val();
+	var pattern = /^1[34578]\d{9}$/; 
+    if(!pattern.test(phone)){ 
+       $('#phone').focus();
+       $('#personForm .error').show();
+       return false; 
+     }
+    $('#personForm .error').hide();
+    return true; 
+	
+});
+</script>
+</body>
+</html>

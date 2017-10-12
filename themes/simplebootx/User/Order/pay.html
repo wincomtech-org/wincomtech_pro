@@ -1,0 +1,206 @@
+<tc_include file="Public:head_user" />
+				<div class="person_con">
+					<div class="person_con_tit">我的订单</div>
+						<div class="person_con_content">
+						<div class='order_form'>
+						       <div class='order_form'>
+							       <!-- 支付页面 -->
+							      <div class="order_pay">
+							          <div class="order_pay_con">
+							             <div class="order_pay_content">
+							                <div class="order_pay_con_icon lf">
+							                    <img src="__TMPL__Public/images/duihao.png" alt="">
+							                </div>
+							                <div class="order_pay_con_txt lf">
+							                    <p class="order_info">订单提交成功，请您尽快付款！订单号：{$info.oid}</p>
+							                    <p class="order_time">订单将为你保留<span class="pay_overplus_time"><i id="t_m">60:</i><i id="t_s">00</i></span>，请抓紧时间支付</p>
+							                	 
+							                </div>
+							                <div class="pay_num rt">
+							                    <div>应付金额：<span class="money">{$info.tprice}</span></div>
+							                </div>
+							                <div class="clear"></div>
+
+							             </div>   
+							                
+							          </div>
+							     
+							         <!-- 支付方式  -->
+							         <div class="pay_mode">
+							            <div class="pay_tab">
+							                <ul class="pay_tab_list">
+							                    <li class="pay_tab_list_item active"><span>支付宝支付</span></li>
+							                    <li class="pay_tab_list_item "><span>微信支付</span></li>
+							       
+							                </ul>            
+							                <div class="pay_tab_con">
+							                    <ul class="pay_tab_con_list">
+							                        <li class="pay_tab_con_list_item" style="display:block">
+							                            <div class="zhifubao">
+							                               <div class="left">
+							                                    <div class="txt"><img src="__TMPL__Public/images/erweima_tit.png" alt=""></div> 
+							                                    <div class="erweima">
+							                                        <div class="lf">
+							                                             <img src="__TMPL__Public/images/erweima.png" alt="">
+							                                        </div>
+							                                        <div class="rt">
+							                                              <img src="__TMPL__Public/images/erweima_tip.png" alt="">
+							                                        </div>
+							                                     
+							                                    </div>
+							                               </div>
+							                               <div class="right">
+							                                    <div class="img">
+							                                        <img src="__TMPL__Public/images/erweima_wangye.png" alt="">
+							                                    </div>
+							                                    <div class="button">
+							                                      <a href="http://127.0.0.1/huachuang/alipay/send.php?oid={$info['oid']}">立即支付</a>
+							                                    </div>
+							                                      
+							                               </div>
+							                              <div class="clear"></div>
+							                            </div>
+							                        </li>
+							                        <li class="pay_tab_con_list_item" style="display:none;">
+							                            <div class="weixin">
+							                                <div class="weixin_con">
+							                                     <img src="__TMPL__Public/images/weixin3.png" alt="">
+							                                    <div class="weixin_bottom">
+							                                       <div class="lf"><img src="http://paysdk.weixin.qq.com/example/qrcode.php?data={$info.weixinUrl}" alt="微信扫码支付"></div>
+							                                       <div class="lf"><img src="__TMPL__Public/images/weixin2.png" alt=""></div>
+							                                        <div class="clear"></div>
+							                                    </div>
+							                                </div>
+							                            </div>
+							                        </li>
+							                        
+							                    </ul>
+							                </div>
+							    
+							            </div>
+
+							         </div>
+							      </div>
+
+			    			</div>
+
+		    			</div>
+					</div>
+				</div>
+		</div>
+	
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+	<script >
+		var oid='{$info.oid}';
+		 $(function(){
+		    window.onload=function(){
+		      var $pay_li=$('.pay_tab_list_item');
+		      var $pay_con=$('.pay_tab_con_list_item');
+		      $pay_li.click(function(){
+		          var $this=$(this);
+		          var $index=$this.index();
+		          $pay_li.siblings('.pay_tab_list_item').hide();
+		          $pay_li.removeClass('active');
+		          $pay_li.show();
+		          $this.addClass('active')
+		          $pay_con.css('display','none');
+		          $pay_con.eq($index).css('display','block');
+		      });
+
+		    }
+
+		    /***银行支付**/
+		    $(".pay_bank ").delegate('label',"click",function(){
+		          var that=$(this);
+		          var input_val=$(this).siblings('input').val();
+		          that.parent().siblings('li').find('label').removeClass('select');
+		          that.addClass('select');
+		    })
+
+		 })
+
+		
+		/***倒计时***/
+		 
+		 var time="{$time}";
+		 var inter=setInterval(getRTime,1000);
+		 var t=parseInt(time)*1000;
+		 var inter2=setInterval(weixin,2000);
+		 getRTime();
+		 weixin();
+		
+		function getRTime(){
+		    var m=Math.floor(t/1000/60%60);
+		    var s=Math.floor(t/1000%60);
+		    if(t<=0 && s<=0){
+		      /***倒计时结束***/
+		      //window.history.back('index.html');
+		      $.get("{:U('outtime')}",{'oid':oid},function(data){
+		    	 
+		    		  clearInterval(inter);
+				      $('.order_time').html('订单支付时间已过期，请重新下单');
+				      $('.pay_mode').remove();
+				      //过期后停止微信查询
+				      setTimeout("clearInterval(inter2)",2000);  
+		      });
+		      return false;
+		    }
+	    	m.toString().length<2?m="0"+m:m=m;
+		    s.toString().length<2?s="0"+s:s=s;
+		    document.getElementById("t_m").innerHTML = m + ":";
+		    document.getElementById("t_s").innerHTML = s + "";
+		     t-=1000;
+		     
+		      
+	           
+		}
+		function weixin(){
+			
+			var xmlhttp;    
+	         if (window.XMLHttpRequest){    
+	             // code for IE7+, Firefox, Chrome, Opera, Safari    
+	             xmlhttp=new XMLHttpRequest();    
+	         }else{    
+	             // code for IE6, IE5    
+	             xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");    
+	         }    
+	         xmlhttp.onreadystatechange=function(){    
+	             if (xmlhttp.readyState==4 && xmlhttp.status==200){    
+	                 trade_state=xmlhttp.responseText;  
+	                 
+	                 if(trade_state=='SUCCESS'){  
+	                    
+	                     $('.order_time').html('微信支付成功');
+	                     
+	                     //延迟3000毫秒执行tz() 方法
+	                     clearInterval(inter);  
+	                     clearInterval(inter2);  
+	                     setTimeout("location.href='{:U("User/Order/index")}'",3000);  
+	                     $('.pay_mode').remove();
+	 
+	                 }else if(trade_state=='REFUND'){ 
+	                	 $('.order_time').html('转入退款');
+	                     clearInterval(inter);  
+	                     
+	                 }else if(trade_state=='CLOSED' || trade_state=='REVOKED' || trade_state=='PAYERROR'){ 
+	                	 $('.order_time').html('已关闭');
+	                     clearInterval(inter); 
+	                     
+	                 }
+	                  
+	             }    
+	         }    
+	         //orderquery.php 文件返回订单状态，通过订单状态确定支付状态  
+	         xmlhttp.open("POST","http://127.0.0.1/huachuang/weixinpay3/orderQuery.php",false);    
+	         //下面这句话必须有    
+	         //把标签/值对添加到要发送的头文件。    
+	         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");    
+	         xmlhttp.send("out_trade_no={$info.oid}"); 
+		}
+	</script>
+	
+</body>
+</html>

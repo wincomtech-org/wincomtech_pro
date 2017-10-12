@@ -1,0 +1,60 @@
+<div class="footer main">
+			<ul class="footer_list">
+				<li class="footer_item">
+					<div class="img ">
+						<span class="img1"></span>
+					</div>
+					<div class="txt ">
+						<dl>
+							<dt>客服电话</dt>
+						<foreach name="company.tel" item="vo">
+							<dd>{$vo.title}：{$vo.content}</dd>
+						</foreach>
+							
+						</dl>
+					</div>
+				</li>
+				<li class="footer_item">
+					<div class="img ">
+						<span class="img2"></span>
+					</div>
+					<div class="txt ">
+						<dl>
+							<dt>客服QQ</dt>
+						<foreach name="company.qq" item="vo">
+							<dd>{$vo.title}：{$vo.content}</dd>
+						</foreach>
+						</dl>
+					</div>
+				</li>
+				<li class="footer_item">
+					<div class="img ">
+						<span class="img3"></span>
+					</div>
+					<div class="txt " >
+						<dl>
+							<dt>公司地址</dt>
+						<foreach name="company.address" item="vo">
+							<dd>{$vo.title}：{$vo.content}</dd>
+						</foreach>
+						</dl>
+						
+					</div>
+				</li>
+				<li class="footer_item">
+					<div class="img ">
+						<span class="img4"></span>
+					</div>
+					<div class="txt ">
+						<dl>
+							<dt>电子邮箱</dt>
+						<foreach name="company.email" item="vo">
+							<dd>{$vo.title}：{$vo.content}</dd>
+						</foreach>
+						</dl>
+						
+					</div>
+				</li>
+			</ul>
+		</div>
+<script src="__TMPL__Public/js/zzcommon.js"></script>

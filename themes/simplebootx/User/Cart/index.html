@@ -1,0 +1,261 @@
+<tc_include file="Public:head_user" />
+				<div class="person_con">
+					<div class="person_con_tit">我的订单</div>
+					<div class="person_con_content">
+						<div class="shopCart">	
+							<div class="shopCart-tab-main">
+							<form action="{:U('User/Cart/order')}" method="post" id="cart-form"> 
+								<table class="cart-table" id="cart-table">	
+									<thead class="cart-head">	
+										<tr class="cart-head-th tabl-tr">	
+												 <th class="th th-chk tabl">	
+												 		<input class="" id="selectAll" type="checkbox">
+												 		<label for="selectAll">全选</label>
+												 </th>
+												
+												 <th class="th th-name tabl">
+												 		名称
+												 </th>
+												<th class="th th-tech tabl">	
+												 		技术支持
+												 </th>
+												
+												<th class="th th-price tabl">	
+												 		单价
+												 </th>
+												 <th class="th th-num tabl">	
+												 		数量
+												 </th>
+												  
+												  <th class="th th-price tabl">	
+												 		价格
+												 </th>
+												
+												 
+												 <th class="th th-delete tabl">	
+												 		<a  id="delAll">批量删除</a>
+												 </th>
+											</tr>
+									</thead>	
+									<tbody class="cart-order">	
+										<foreach name="list" item="vo">
+											
+												<tr class="order-item tabl-tr"  >	
+													 <td class="td td-chk tabl">
+													 <!-- <input type="hidden" class="cid" value="{$vo.id}" > -->
+														
+													 		<input class="slectBox cid" type="checkbox"  name="cid[]" value="{$vo.id}" <eq name="vo.status" value="1">checked</eq>>
+													 </td>
+													
+													 <td class="td td-name tabl">
+													 		<a href="{$vo.link}">{$vo.name}</a> 
+													 </td>
+													 
+													<td class="th th-tech tabl">	
+												 		{$attrs[$vo['aid']]}
+												 	</td>
+													  <td class="td td-price tabl">	
+													 	￥<span class="price">{$vo.price}</span>
+													 </td>
+													 <td class="td td-amount tabl">
+														 	<span class="reduce">-</span>	
+														 	<span class="count">{$vo.count}</span>
+														 	<span class="add">+</span>
+													 </td>
+													  <td class="td td-price tabl">	
+													 	￥<span class="zprice">{$vo.zprice}</span>
+													 </td>
+													 <td class="td td-delete tabl">	
+													 		<a  class="delete" >删除</a>
+													 		
+													 </td>
+												</tr>		
+												
+										</foreach>			 
+									</tbody>	
+								</table>
+									<div class="page"><ul class="page_list">{$page}</ul></div>
+								<div class="cart-foot">
+								 
+									<div class="cart-footer-money">
+									 
+										<div class="cart-total-amount tf">已选商品 <span class="total-amount" id="totalAmount">5</span>件商品</div>
+										<div class="cart-total-price  tf">总计：<span class="total-price" id="priceTotal">1000</span>元</div>
+										<div class="cart-pay  tf"><a href="javascript:pay()">结算 </a> </div>
+									</div>
+								</div>
+								</form>
+								<!-- 未购买 -->
+				        <empty name="list">
+						 <div class="goodsListStatus">
+							<img src="__TMPL__Public/images/statusBg.png">
+							<div class="text">还没有添加购物车</div>
+							<a href="{:U('Portal/Product/list0')}"><div class="goodsListBtn">去看看</div></a>
+						 </div>
+						</empty>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+		</div>
+	
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+<script>
+function pay(){
+	if($('.order-item input:checked').length==0){
+		return false;
+	}
+	$('#cart-form').submit();
+}
+cprice();
+//计算总价
+function cprice(){
+	var cprice=0;
+	var zprice=0;
+	var tcount=0;
+	var count=0;
+	$('#cart-form .order-item').each(function(){
+		if($(this).find('.cid')[0].checked==true){
+			zprice=parseFloat($(this).find('.zprice').html());
+			cprice+=zprice;
+			count=parseInt($(this).find('.count').html());
+			tcount+=count;
+		}
+		
+	});
+	cprice=cprice.toFixed(2);
+	$('#cart-form #priceTotal').html(cprice);
+	$('#cart-form #totalAmount').html(tcount);
+}
+//购物车-
+$('.reduce').click(function(){
+	
+	var $tr=$(this).parents('tr');
+ 
+	var id=$tr.find('.cid').val();
+	var count=parseInt($tr.find('.count').html())-1;
+	if(count<1){
+		return false;
+	}
+	 $.get('{:U("User/Cart/reduce")}',{'id':id,'count':count},function(data){
+		if(data.errno==1){
+			$tr.find('.count').html(count);
+			var zprice=count*parseFloat($tr.find('.price').html());
+			$tr.find('.zprice').html(zprice.toFixed(2));
+			cprice();
+		}else{
+			alert('数据错误');
+		}
+	}); 
+});
+//购物车+
+$('.add').click(function(){
+	
+	var $tr=$(this).parents('tr'); 
+	var id=$tr.find('.cid').val();
+	  
+	var count=parseInt($tr.find('.count').html())+1;
+	
+	 $.get('{:U("User/Cart/reduce")}',{'id':id,'count':count},function(data){
+		if(data.errno==1){
+			 
+			$tr.find('.count').html(count);
+			var zprice=count*parseFloat($tr.find('.price').html());
+			$tr.find('.zprice').html(zprice.toFixed(2));
+			cprice();
+		}else{
+			alert('数据错误');
+		}
+	});
+});
+//选中更改购物车状态
+$('.td-chk').click(function(){
+	 
+	 var id=$(this).find('.cid').val();
+	//判断是否为选中
+	var status=1;
+	if($(this).find('.cid').prop('checked')==false){
+		status=2;
+	}
+	 
+	$.get('{:U("User/Cart/status")}',{'id':id,'status':status},function(data){
+		
+	});
+	cprice(); 
+});
+//全选
+var flag=2;
+$('#selectAll').click(function(){
+	
+	var ids=new Array();
+	if(flag==2){
+		flag=1;
+		 
+		$(this).parents('form').find('.cid').each(function(){
+			this.checked=true;
+			ids[ids.length]=this.value;
+		});
+	}else{
+		flag=2;
+		$(this).parents('form').find('.cid').each(function(){
+			this.checked=false;
+			ids[ids.length]=this.value;
+		});
+	}
+	$.get('{:U("User/Cart/selectAll")}',{'ids':ids,'status':flag},function(data){
+		
+	});
+	cprice(); 
+	 
+});
+//购物车批量删除
+$('#delAll').click(function(){
+	var cids=new Array();
+	$(this).parents('form').find('.cid').each(function(){
+		if(this.checked==true){
+			cids[cids.length]=this.value;
+		}
+	});
+	if(cids.length==0){
+ 		return false;
+ 	}
+	if(!confirm('确认删除所选吗?')){
+		return false;
+	}
+	 $.get('{:U("User/Cart/dels")}',{'cids':cids},function(data){
+		if(data.errno==1){
+			$('tbody input:checked').parents('tr').remove();
+			
+		}else{
+			alert('数据错误');
+		}
+	}); 
+});
+
+//删除购物车
+$('.delete').click(function(){
+	if(!confirm('确认删除吗?')){
+		return false;
+	}
+	var tr=$(this).parents('tr');
+	var cid=tr.find('.cid').val();
+	var cids=new Array(cid);
+	
+	 $.get('{:U("User/Cart/dels")}',{'cids':cids},function(data){
+		if(data.errno==1){
+			tr.remove();
+			
+		}else{
+			alert('数据错误');
+		}
+	}); 
+});
+
+
+</script>
+</body>
+</html>

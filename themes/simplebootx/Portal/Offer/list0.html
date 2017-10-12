@@ -1,0 +1,63 @@
+ <tc_include file="Public:head" />
+
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	
+	 
+	<!-- 产品报价-->
+	<section class="case">
+		<div class="case_tit">
+			<div class="main">
+				<span class="left">产品报价</span>
+				<span class="right">product quotation</span>
+			</div>	
+		</div>
+		<div class="main">
+			
+			<!-- 产品报价 -->
+				<div class="offter_con">
+					<div class="offter_tit_list lf">
+						<ul class="offter_tit_items">
+						<foreach name="ocates" item="vo">
+							<li class="offter_tit_item item1 <if condition="$vo['id'] eq $scid ">ff</if>">
+								<h4><a class="<if condition="$vo['id'] eq $scid ">activea</if>"  href="{:U('list0',array('cid'=>$vo['id']))}">{$vo.name}</a><span class="arr"></span></h4>
+								
+								<ol class="offter_tit_subItem">
+								
+								<foreach name="vo.child" item="vv">
+								    <li ><a class="<if condition="$vv['id'] eq $scid ">activea</if>" href="{:U('list0',array('cid'=>$vv['id']))}">{$vv.name}</a></li>
+								 </foreach>  
+								</ol>
+							</li>
+						</foreach>
+						</ul>
+					</div>
+					<div class="offter_content_list rt">
+						<div class="offterCon item1_con">
+							<div class="offter_tit_con ">
+								<ul class="offter_content_items">
+								<foreach name="offers" item="vo">
+									<li class="offter_content_item">
+										<a href="{:U('detail',array('id'=>$vo['id']))}" class="offter_tit_a">{$vo.name}</a>
+										<span class="date">{$vo.time|date="Y-m-d",###}</span>
+									</li>
+								</foreach>
+								</ul>
+								<div class="page"><ul class="page_list">{$page}</ul></div>
+							</div>
+							
+						</div>
+						
+					</div>
+					<div class="clear"></div>
+				</div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+	 
+</body>
+</html>

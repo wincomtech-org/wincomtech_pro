@@ -1,0 +1,68 @@
+ <tc_include file="Public:head" />
+<style>
+.control-label{
+	font-weight: bold;
+	float: left;
+	width: 70px;
+}
+</style>
+ </head>
+ <body>
+  
+    <tc_include file="Public:header0" />
+ 
+		<div class="container tc-main">
+                <div class="row">
+                    <div class="span3">
+	                    <tc_include file="Public:usernav"/>
+                    </div>
+                    <div class="span9">
+                           <div class="tabs">
+                               <ul class="nav nav-tabs">
+                                   <li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-list-alt"></i>个人中心</a></li>
+                               </ul>
+                               <div class="tab-content">
+                                   <div class="tab-pane active" id="one">
+                                   		  <div class="span2">
+                                   		  <a href="{:U('profile/avatar')}">
+                                   			<if condition="empty($avatar)">
+								            <img src="__TMPL__Public/assets/images/headicon_128.png" class="headicon"/>
+								            <else/>
+								            <img src="{:sp_get_user_avatar_url($avatar)}" class="headicon"/>
+								            </if>
+								          </a>
+										  </div>      
+										  <div class="span3">
+                                   			<div class="control-group">
+                                   				<label class="control-label" for="input-user_nicename">昵称</label>
+                                   				<div class="controls">
+                                   					{$user_nicename}
+                                   				</div>
+                                   			</div>
+                                   			<div class="span3">
+                                   			<div class="control-group">
+                                   				<label class="control-label" for="input-mobile">手机</label>
+                                   				<div class="controls">
+                                   					{$mobile}
+                                   				</div>
+                                   			</div>
+                                   			
+                                   			
+                                   			
+                                   			<div class="control-group">
+                                   				<div class="controls">
+                                   					<a href="{:U('user/profile/edit')}" type="submit" class="btn">编辑</a>
+                                   				</div>
+                                   			</div>
+                                   		</div>
+                                   </div>
+                               </div>							
+                           </div>
+                    </div>
+                </div>
+</div>
+		<tc_include file="Public:footer" />
+
+	
+</body>
+</html>

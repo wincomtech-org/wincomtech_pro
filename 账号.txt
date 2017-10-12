@@ -1,0 +1,8 @@
+后台
+super--111111
+
+前台（自由注册）
+15261541317--111111
+
+数据库保存在data下,编码utf8_general_ci
+huachaung.sql

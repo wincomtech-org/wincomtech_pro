@@ -1,0 +1,181 @@
+ <tc_include file="Public:head" />
+
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	 
+	<!-- 案例 -->
+	<section class="case">
+		<div class="case_tit">
+			<div class="main">
+				<span class="left">产品详情展示</span>
+				<span class="right">Product details</span>
+			</div>	
+		</div>
+		<div class="main">
+			
+			<!-- 产品报价 -->
+				<div class="proct_detail">
+					<div class="proct_detail_tit">
+						<div class="proct_detail_tit_img lf"><img src="__ROOT__/data/upload/<empty name="info.pic">{$company.product.content}<else/>{$info.pic}</empty>" alt=""></div>
+						<ul class="proct_detail_tit_txt rt">
+						   <li><h3 class="tit">{$info.name}</h3></li>
+						   <li>
+						   		<p class="price">￥<span></span></p>
+						   		<p class="content">{$info.desc}</p>
+						   	</li>
+						   <li>程序支持：<span class="gray">{$info.program}</span></li>
+						   <li>数据库：<span class="gray">{$info.sql}</span></li>
+						   <li>运行环境：<span class="gray">{$info.platform}</span></li>
+						    <form action="{:U('User/Cart/order_post')}" method="post" accept-charset="utf-8" class="temp_det_form" id="temp_det_form">
+						<div class="tech"> 技术支持
+							<foreach name="prices" item="vo" key="k">
+							<!--  name="price_id" value="{$vo.id}" -->
+							<if condition="$price_id eq $vo['id']">
+							<div class="left1  red ">
+							 
+								<input type="hidden" class="prices" value="{$vo.price}"/>
+								<input type="radio" checked name="price_id" value="{$vo.id}" id="radio{$k+1}" class="price_id">
+								<label for="radio{$k+1}">{$vo.aname}-{$vo.price}</label>
+							</div>
+							<else/>
+							<div class="left1 ">
+								 
+								<input type="hidden" class="prices" value="{$vo.price}"/>
+								<input type="radio" checked name="price_id" value="{$vo.id}" id="radio{$k+1}" class="price_id">
+								<label for="radio{$k+1}">{$vo.aname}</label>
+							</div>
+							</if>
+							</foreach>
+						 	 
+						</div>
+						<p class="buy_state">
+							 
+							<a  class="add_cart"  >加入购物车</a> 
+							<a href="javascript:$('form').submit();" class="buy"   >立即购买</a>
+							<a href="{$info.website}" class="view" target="_blank">查看演示</a>
+						</p>
+						
+					</form>
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<div class="proct_detail_con">
+						<table>
+							<thead>
+								<tr>
+									<th class="red" width="100%"  colspan="6">产品介绍</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>前台演示</td>
+									<td colspan="5">
+										<div class="left">
+											{$info.content1}
+										</div>
+										 
+									</td>
+								</tr>
+								 
+								<tr>
+									<td>电脑端后台管理</td>
+									<td colspan="5">
+										{$info.content2}
+									</td>
+								</tr>
+								<tr>
+									<td>手机端后台管理</td>
+									<td colspan="5">
+										{$info.content3}
+									</td>
+								</tr>
+								<tr>
+									<td>商家店铺演示</td>
+									<td colspan="5">
+									<foreach name="info.links1" item="vo" key="k">
+										<eq name="k" value="0">
+										<a href="{$vo}" target="_blank">店铺风格</a>  <span class="red">【荐】</span>
+										<else/>
+										<a href="{$vo}" target="_blank">店铺风格{$k+1}</a>
+										</eq>
+										 
+									</foreach>
+									</td>
+								</tr>
+								<tr>
+									<td>店铺电脑端管理</td>
+									<td colspan="5">
+									<foreach name="info.links2" item="vo" key="k">
+										<eq name="k" value="0">
+										<a href="{$vo}" target="_blank">店铺风格</a>  <span class="red">【荐】</span>
+										<else/>
+										<a href="{$vo}" target="_blank">店铺风格{$k+1}</a>
+										</eq>
+										 
+									</foreach> 
+									</td>
+								</tr>
+								<tr>
+									<td>店铺手机端管理</td>
+									<td colspan="5">
+										<div class="left">
+											{$info.content4}
+										</div>
+										 
+									</td>
+								</tr>
+								<tr>
+									<td>分销商用户名和密码</td>
+									<td colspan="5">
+										{$info.psw1}
+									</td>
+								</tr>
+								<tr>
+									<td>会员用户名和密码</td>
+									<td colspan="5">
+										{$info.psw2}
+									</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+ 
+<tc_include file="Public:footer" />
+<script>
+var price=$('.proct_detail_tit_txt .red').find('.prices').val(); 
+$('.proct_detail_tit_txt').find('.price span').html(price);
+$('.buy_state .add_cart').click(function(){
+	 
+	if($('.header_right').find('.nofollow_denglu').length==0){
+		 
+		
+		location.href = "{:U('user/login/index')}";
+		return false;
+	}
+	
+	var price_id=$(this).parents('.proct_detail_tit_txt').find('.red .price_id').val();
+	 
+	$.get('{:U("User/Cart/insert")}',{'price_id':price_id},function(data){
+		 console.log('price_id'+price_id);
+		if(data.errno==1){
+			alert('已添加购物车');
+		}else{
+			alert('添加购物车失败');
+		}
+	});
+	
+});
+</script> 
+</body>
+</html>

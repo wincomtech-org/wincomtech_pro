@@ -1,0 +1,151 @@
+<admintpl file="header" />
+<link href="__TMPL__Public/assets/css/zzinfo.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('index')}">订单列表</a></li>
+			<li class="active"><a>订单详情</a></li>
+		</ul>
+		<!-- js-ajax-form -->
+		<form class="form-horizontal js-ajax-form" method="post" action="{:U('edit')}" >
+			<fieldset>
+				<div class="control-group fleft">
+					<span class="control-label" >订单号：</span>
+					<div class="controls" >
+						
+						<input type="text" value="{$info.oid}"  disabled />
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >订单名称：</span>
+					<div class="controls">
+						<input type="text" value="{$info.name}"  disabled/>
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >订单总价：</span>
+					<div class="controls">
+						<input type="text" value="￥{$info.tprice}"  disabled/>
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >订单状态：</span>
+					<div class="controls">
+						<input type="text" value="{$status}"  disabled/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >用户名：</span>
+					<div class="controls">
+						<input type="text"value="{$info.user_nicename}" disabled/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >联系人：</span>
+					<div class="controls">
+						<input type="text"value="{$info.uname}" disabled/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >联系方式：</span>
+					<div class="controls">
+						<input type="text"value="{$info.utel}" disabled/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >下单时间：</span>
+					<div class="controls">
+						<input type="text" value="{$info.create_time|date='Y-m-d H:i',###}" disabled/>
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label" >下单ip：</span>
+					<div class="controls">
+						<input type="text" value="{$info.ip}" disabled/>
+					</div>
+				</div>
+				 <div style="clear:both"></div>
+				<div class="control-group">
+					<span class="control-label" >订单商品：</span>
+					<div class="controls">
+		<table class="table table-hover table-bordered" style="width:81%;">
+			<thead>
+				<tr >
+					<th>商品名</th>
+					
+					<th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th> 
+				</tr>
+			</thead>
+			<tbody>
+				<foreach name="list" item="vo">
+				<tr>
+                    <td><a href="{$vo.link}" target="_blank">{$vo.name}</a></td>      
+                 
+                    <td>￥{$vo.price}</td>
+                   	<td>{$vo.count}</td>
+                   	<td>{$vo.zprice}</td>
+				</tr>
+				</foreach>
+			</tbody>
+		</table>	
+					</div>
+				</div>
+				
+				
+				
+				<div class="control-group">
+					<span class="control-label" >用户订单备注：</span>
+					<div class="controls">
+						<textarea readonly>{$info.desc1}</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >管理员订单备注：</span>
+					<div class="controls">
+						<textarea name="desc2">{$info.desc2}</textarea>
+					</div>
+				</div>
+			
+				<div class="form-actions">
+					<input type="hidden" name="oid" value="{$info.oid}">
+					
+					<button type="submit" class="btn btn-primary js-ajax-submit" id="sub">
+						保存提交
+					</button>
+					<button type="reset" class="btn btn-primary js-ajax-submit">重置</button>
+					<a class="btn" href="javascript:history.back(-1);">返回</a>
+					
+				</div>	
+				
+				
+		
+			</fieldset>
+		</form>
+	</div>
+<script src="__PUBLIC__/js/common.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+	
+	  //初始化百度编辑器
+       var ue = UE.getEditor('content1');
+       var ue = UE.getEditor('content2');
+       var ue = UE.getEditor('content3');
+       var ue = UE.getEditor('content4');
+</script>
+<script>
+	
+function newPic(){
+	var oldPic=$.trim($('#old-pic').attr('src'));
+	var newPic=$.trim('__ROOT__/data/upload/'+$('#js-link-image').val());
+	if(newPic!=''&&newPic!=oldPic){
+		$('#old-pic').attr('src',newPic);
+	}
+	setTimeout("newPic()",500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<tc_include file="Public:head" />
+</head>
+<body>
+  
+   <header class="nofllow_header">
+          <div class="main">
+              <div class=" lf"><a href="index.html">
+              		<img src="__ROOT__/data/upload{$company.logo.content}" alt=""></a>
+              </div>
+              <div class="lf login">
+              		<span>登录</span>
+              </div>
+             <div class=" rt"><a href="index.html">返回首页</a></div>
+          </div>
+    </header>
+     <section class="nofllow_content">
+         <div class="main">
+             <div class="login form_con">
+                 <form action="{:U('user/login/dologin')}" method="post" accept-charset="utf-8" class="login_form" autocomplete onSubmit="return  checkLogin()">
+                     
+                        <div class="form_group">
+                            <input type="text" name="username" id="userName" value="" class="form_control" placeholder="请输入手机号" required>
+                            <small class="help_block"   style="display:none;">请填写正确手机号</small>
+                        </div> 
+                        <div class="form_group">
+                            <input type="password" name="password" id="passWord" value="" class="form_control" placeholder="请输入密码" required minlength="6">
+                            <small class="help_block"   style="display:none;">请输入正确密码</small>
+                        </div>
+						
+                        <div class="row login_code">
+                            <div class="col_7">
+                                <div class="form_group">
+                                    <input type="text" name="verify" id="verify" required class="form-control" placeholder="验证码"   required>
+	                                <small class="help_block" data-bv-validator="notEmpty" data-bv-for="code" data-bv-result="NOT_VALIDATED" style="display: none;">请输入正确验证码</small></div>
+	                            </div>
+	                            <div class="col_3 login_code_img">
+	                               {:sp_verifycode_img('length=4&font_size=14&width=100&height=34&charset=1234567890&use_noise=1&use_curve=0')}
+	                            </div>
+                        </div>
+                        <div class="login_link">
+                            <a href="{:U('user/login/forgot_password')}">忘记密码</a>
+                        </div> 
+                        <button type="submit" class="btn btn_1" >登录</button>
+                        <a href="{:leuu('user/register/index')}"  class="btn btn_2">没有账号，现在去注册</a>
+                       
+                 </form>
+             </div>
+         </div>
+     </section>
+	<tc_include file="Public:footer" />
+  <script >
+
+
+function checkLogin(){
+    $('.help_block').hide();
+     var username=$('#userName').val();
+     var password=$('#passWord').val();
+     var verify=$.trim($('#verify').val());
+     if(verify.length!==4){
+   	 
+	   	  $('#verify').focus();
+	   	  $('#verify').siblings().show();
+	   	  return false; 
+     }
+     var pattern = /(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/; 
+     if(!pattern.test(username)){ 
+	       $('#userName').focus();
+	       $('#userName').siblings().show();
+	       return false; 
+     }
+     
+     
+	$.post("{:U('User/Login/ajaxlogin')}",{'username':username,'password':password,'verify':verify},function(data){
+		if(data.errno==1){
+			location.href=data.error;
+		}else{
+			alert(data.error);
+			location.reload(true);
+		}
+	});
+     
+     
+     return false;
+}
+  </script>
+</body>
+</html>

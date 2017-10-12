@@ -1,0 +1,77 @@
+ <tc_include file="Public:head" />
+
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	 
+	<!-- 案例 -->
+	<section class="case">
+		<div class="case_tit">
+			<div class="main">
+				<span class="left">产品报价</span>
+				<span class="right">product quotation</span>
+			</div>	
+		</div>
+		<div class="main">
+			
+			<!-- 产品报价 -->
+				<div class="offter_con">
+					<div class="offter_tit_list lf">
+						<ul class="offter_tit_items">
+						<foreach name="ocates" item="vo">
+							<li class="offter_tit_item item1 <if condition="$vo['id'] eq $scid ">ff</if>">
+								<h4><a class="<if condition="$vo['id'] eq $scid ">activea</if>"  href="{:U('list0',array('cid'=>$vo['id']))}">{$vo.name}</a><span class="arr"></span></h4>
+								
+								<ol class="offter_tit_subItem">
+								
+								<foreach name="vo.child" item="vv">
+								    <li ><a class="<if condition="$vv['id'] eq $scid ">activea</if>" href="{:U('list0',array('cid'=>$vv['id']))}">{$vv.name}</a></li>
+								 </foreach>  
+								</ol>
+							</li>
+						</foreach>
+						</ul>
+					</div>
+					<div class="offter_content_list rt">
+						<div class="offterCon">
+							<div class="offter_tit_con ">
+								<div class="service_con">
+									<div class="offter_detail">
+										<h3>{$info.name}</h3>
+										<ul class="offter_detail_ul">
+											<li>{$info.time|date="Y-m-d",###}</li>
+											<li>{$info.author}</li>
+											<li>阅读：<span class=''>{$info.count}</span></li>
+										</ul>
+									</div>
+									{$info.content}
+									<div class="service_tips">
+										<P class="service_tips_tit red">温馨提示：</P>
+										<p class="service_tips_list">1.所有报价均为最终销售价格（不含税），无优惠；不含任何插件模块、APP苹果上架所产生的费用；
+										</p>
+										<p  style="text-indent:2em;">如需开具发票，在销售款上另加6%税款，提供发票抬头和准确无误的邮寄地址；</p>
+										<p class="service_tips_list">2、以下情况不属于服务范围：</p>
+										<p style="text-indent:2em;">(1)自行修改网站模板、程序代码产生的问题；</p>
+										<p style="text-indent:2em;">(2)自行对数据库进行直接操作导致数据库出错或者崩溃:</p>
+										<p style="text-indent:2em;">(3)服务器、虚拟主机原因造成的系统故障、安全问题；</p>
+										<p style="text-indent:2em;">(4)第三方系统（平台）(接口)的使用、故障不在服务范围内；</p>
+										<p style="text-indent:2em;">(5)不负责对专业技术的培训,包括但不限于模板制作、程序编写、修改等。</p>
+
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+					</div>
+					<div class="clear"></div>
+				</div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+	 
+</body>
+</html>

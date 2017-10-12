@@ -1,0 +1,267 @@
+<admintpl file="header" />
+<style type="text/css">
+	.controls input{
+		color:black;
+		width:225px;
+	}
+	.fleft{
+	float:left;
+	margin-right:100px;
+	} 
+	.control-group .red{
+		color:red;
+	}
+	 .control-group textarea{
+		width:80%;
+	}
+	 .gray-score{
+	 	width:60px;
+	 	height: 60px;
+		background:url(__TMPL__Public/assets/images/img/gray-score.png);
+	 }
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<!-- js-ajax-form -->
+		<form class="form-horizontal js-ajax-form" method="post" action="{:U('doTask')}" >
+			<fieldset>
+				<div class="control-group fleft">
+					<span class="control-label" >任务编号：</span>
+					<div class="controls" id="task_number">
+						
+						<input type="text" value="{$info.task_number}"  disabled />
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >提交时间：</span>
+					<div class="controls">
+						<input type="text" value="{$info.submit_time|date="Y-m-d H:i:s",###}"  disabled />
+					</div>
+				</div>
+				<div class="control-group fleft">
+					<span class="control-label">用户名：</span>
+					<div class="controls">
+						<input type="text" value="{$info.uname}"  disabled />
+				
+					</div>
+				</div>
+				
+				<div class="control-group fleft">
+					<span class="control-label" >邮箱：</span>
+					<div class="controls">
+						<input type="text" value="{$info.email}"  disabled />
+					</div>
+				</div>
+				<div class="control-group balck fleft">
+					<span class="control-label" >交付方式：</span>
+					<div class="controls">
+						<input type="text" value="{$info.delivery_mode}"  disabled />
+					</div>
+				</div>
+				
+				<div class="control-group fleft">
+					<span class="control-label" >问题分类：</span>
+					<div class="controls">
+						<input type="text" value="{$info.sname}"  disabled />
+					
+					</div>
+				</div>
+			<eq name="info.is_accept" value="0">
+				<div class="control-group fleft">
+					<span class="control-label" >已参与人数：</span>
+					<div class="controls">
+						<input style="color:red" type="text" value="{$info.tcounts}"  disabled />
+					</div>
+				</div>
+			</eq>
+				<div style="clear:both"></div>
+				<div class="control-group">
+					<span class="control-label" >问题描述：</span>
+					<div class="controls">
+						<textarea  readonly >{$info.task_describe}</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >问题附件：</span>
+					<div class="controls">
+					<foreach name="info.accessory_path" item="vo">
+                  		<a href="{:U('doDownload2',array('new'=>$vo['all'],'old'=>$vo['old']))}">{$vo['old']}</a>&nbsp&nbsp&nbsp
+                  	</foreach>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >用户意向价格($)：</span>
+					<div class="controls">
+						<input type="text" value="{$info.user_price}"  disabled />
+					</div>
+				</div>
+				<div class="control-group ">
+					<span class="control-label" >要求完成时间：</span>
+					<div class="controls">
+					<eq name="info.is_submit" value="0">
+						<input type="text" id="comp" value="<notempty name="info.completion_time">{$info.completion_time|date="Y-m-d H:i:s",###}</notempty>"  disabled />
+					<else/>
+						<input type="text" name="comp" id="comp" value="{$info.completion_time|date="Y-m-d H:i:s",###}"  required />
+					</eq>
+					</div>
+				</div>
+			<eq name="info.is_submit" value="1">
+				<div class="control-group" >
+					<span class="control-label" >工作教师：</span>
+					<div class="controls">
+					<eq name="info.is_confirm" value="1">
+						<input type="text" id="tid" value="{$info.tname}" disabled/>
+						
+					<else/>
+                  		<select name="tid" id="tid" class="change" required>
+                  			<option value="">请选择</option>
+               			<foreach name="teacher" item="vo">
+               				<option value="{$vo.id}"  <if condition="$vo['id'] eq $info['tid']">selected</if>>{$vo.name}</option>
+               			</foreach>
+               			</select>
+               		</eq>	
+               		
+               	  	</div>
+				</div>
+			</eq>
+			<eq name="info.is_accept" value="1">
+				<div class="control-group">
+					<span class="control-label" >最终定价($)：</span>
+					<div class="controls">
+					<eq name="info.is_pay" value="0">
+				
+                  		<input type="number" id="finalPrice" class="change" name="final_price" value="{$info.final_price}" min="{$Think.config.min_pay}" max="{$Think.config.max_pay}"  required/>
+                  	 <else/>
+                  	 	<input type="text" id="finalPrice" value="{$info.final_price}" disabled/>
+                  	 </eq>
+                  	 <eq name="info.is_price" value="1">
+               	  		
+               	  		<eq name="info.is_pay" value="0">---还未付款
+               	  		<else/>已支付定金
+	               	  		
+               	  		</eq>
+               		</eq> 
+					</div>
+				</div>
+			</eq>
+				
+		
+			<eq name="info.is_pay" value="1">
+				<div class="control-group">
+					<span class="control-label" >工作进度：</span>
+					<div class="controls">
+						<input type="text" value="{$info.process}%"  disabled />
+					</div>
+				</div>
+            <else/>
+            	<input type="hidden" name="sid" value="{$info.sid}">
+				<input type="hidden" name="sstatus"  value="{$info.sstatus}">
+			</eq> 
+            <eq name="info.is_answer" value="1">
+                <div class="control-group">
+					<span class="control-label" >答案说明：</span>
+					<div class="controls">
+						<textarea readonly>{$info.answer_explain}</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >答案预览附件：</span>
+                	<div class="controls">
+                  	<foreach name="info.answer_some" item="vo">
+                  		<a href="{:U('doDownload2',array('new'=>$vo['new'],'old'=>$vo['old']))}">{$vo['old']}</a>&nbsp&nbsp&nbsp
+                  </foreach>
+                  	
+                  	</div>
+                 </div>
+                 <div class="control-group">
+					<span class="control-label" >答案完整附件：</span>
+					<div class="controls">
+                  	<foreach name="info.answer_full" item="vo">
+                  		<a href="{:U('doDownload2',array('new'=>$vo['new'],'old'=>$vo['old']))}">{$vo['old']}</a>&nbsp&nbsp&nbsp
+                  	</foreach>
+                  	</div>
+                 </div>
+                 <div class="control-group">
+					<span class="control-label" >答案提交时间：</span>
+					<div class="controls">
+						<input type="text" value="{$info.answer_time|date="Y-m-d H:i:s",###}"  disabled />
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label" >用户状态：</span>
+					<div class="controls">
+						<input type="text" value="<eq name='info.is_confirm' value='0'>未确认<else/>已确认</eq>"  disabled />
+					</div>
+				</div>
+			</eq>
+			<eq name='info.is_complete' value='1'>
+                <div class="control-group">
+					<span class="control-label" >用户评分：</span>
+					<div class="controls">
+						<foreach name="info.score1" item="$v">
+							<img src="__TMPL__Public/assets/images/img/light-score.png"  />
+						</foreach>
+						<foreach name="info.score2" item="$v">
+							<img src="__TMPL__Public/assets/images/img/gray-score.png"  />
+						</foreach>
+					</div>
+				</div>
+				 <div class="control-group">
+					<span class="control-label" >评价留言：</span>
+					<div class="controls">
+						<textarea readonly>{$info.evaluate}</textarea>
+					</div>
+				</div>
+			</eq>
+           <eq name='info.is_confirm' value='0'>
+          	<eq name="info.is_submit" value="1">
+				<div class="form-actions">
+					<input type="hidden" name="id" id="id" value="{$info.id}">
+					
+					<button type="submit" class="btn btn-primary js-ajax-submit" id="sub">
+						保存提交
+					</button>
+					<button type="reset" class="btn btn-primary js-ajax-submit">重置</button>
+					<a class="btn" href="javascript:history.back(-1);">{:L('BACK')}</a>
+					
+				</div>	
+				<div class="control-group">
+					<span class="control-label" style="color:red">*</span>
+					<div class="controls">
+						<span>付款前可以重新定价，用户确认前也可以更换教师</span>
+					</div>
+				</div>
+				
+			<else/>
+				<div class="control-group">
+					<span class="control-label" style="color:red">*</span>
+					<div class="controls">
+						<span>用户未提交的订单，管理员只能查看不能编辑</span>
+					</div>
+				</div>
+			</eq>
+			</eq>		
+			</fieldset>
+		</form>
+	</div>
+<script src="__PUBLIC__/js/common.js"></script> 
+<script src="__TMPL__Public/assets/js/laydate/laydate.js"></script>
+<script type="text/javascript">
+laydate.skin('molv');
+laydate({
+    elem: '#comp',
+    format: 'YYYY-MM-DD hh:mm:ss', //日期格式
+    istoday: true, //是否显示今天
+    issure: true, //是否显示确认
+    festival: false, //是否显示节日
+    istime: true, //是否开启时间选择
+    min: laydate.now(), //-1代表昨天，-2代表前天，以此类推
+   
+   
+});
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+	        <li ><a href="{:U('cate_index')}">分类管理</a></li>
+			<li class="active"><a href="{:U('cate_add')}">添加分类</a></li>
+	    </ul>
+	    <!--  -->
+		<form class="form-horizontal js-ajax-form" action="{:U('cate_add_do')}" method="post">
+			<div class="tabbable">
+		        <div class="tab-content">
+		          <div class="tab-pane active" id="A">
+						<fieldset>
+							 
+							<div class="control-group">
+								<label class="control-label">类名</label>
+								<div class="controls">
+									<input type="text" name="name" value="" required><span class="form-required">*</span>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">排序</label>
+								<div class="controls">
+									<input type="text" name="sort" value="0">
+								</div>
+							</div>
+						</fieldset>
+		          </div>
+		         
+		         
+		        </div>
+		    </div>
+		    <div class="form-actions">
+		     	<button class="btn btn-primary js-ajax-submit"type="submit">添加</button>
+		      	<a class="btn" href="javascript:history.back(-1);">返回</a>
+		    </div>
+		</form>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

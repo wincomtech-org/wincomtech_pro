@@ -1,0 +1,110 @@
+<tc_include file="Public:head_user" />
+				<div class="person_con">
+					<!-- <div class="person_con_tit">我的订单</div> -->
+						<div class="person_con_content">
+						<div class='order_form'>
+						       <!-- 订单 -->
+						    <div class='order_form'>
+						    
+						      <!-- 订单内容 -->
+						      <div class="order_content orderForm_main">
+						          <div class="order_information">
+						              <h3 class="order_information_tit">订单信息</h3>
+
+						              <!-- 地址 -->
+						              <div class="order_address">
+						                  <h3 class="order_address_tit">联系方式 </h3>
+						                  <div class="order_addr_content">
+						                   
+						                    
+						                   <form action="" method="post"  id="addrForm" class='addrForm' > 
+						                   			<div class="order_item">
+						                                <span class="order_item_tit">联系人</span>
+						                                <div class="order_item_con">
+						                                    <div class="order_item_con_input">
+						                                        <input type="text" maxlength="20" value="{$info.uname}" id="phone" readonly>
+						                                    </div>
+						                                   
+						                                </div>
+						                             </div>                           
+						                             <div class="order_item">
+						                                <span class="order_item_tit">手机号码</span>
+						                                <div class="order_item_con">
+						                                    <div class="order_item_con_input">
+						                                        <input type="text" maxlength="150" value="{$info.utel}"  readonly>
+						                                    </div>
+						                                   
+						                                </div>
+						                            </div>
+						                          
+						                     </form> 
+						                  </div>
+						                  
+						              </div>
+									<form action="{:U('User/Order/pay')}" method="post"> 
+						               <!-- 商品清单 -->
+						              <div class="merchBill">
+						                 <h3 class="merchBill_tit">商品清单</h3>
+						                  <div class="merchBill_con">
+						                      <div class="merchBill_con_right">
+						                          <h3>商品清单</h3>
+						                          <ul class="merchBill_con_right">
+						                          <foreach name="list" item="vo">
+						                              <li>
+						                              		<input type="hidden" name="cid[]" value="{$vo.id}"/>
+							                              	<span class="left"><img src="__ROOT__/data/upload/{$vo.pic}" alt=""></span>
+							                              	<span class="middle"><a href="{$vo.link}">{$vo.name}</a></span>
+							                              	
+							                         		<span class="num">{$vo.count}份</span> 
+							                              	
+							                              	<span class="right">￥{$vo.zprice}</span>
+							                               
+						                              </li>
+						                            </foreach>  
+						                          </ul>
+
+						                      </div>
+						                      <div class="clear"></div>
+						                  </div>          
+
+						              </div>
+
+						              <!-- 商品合计 -->
+						              <div class="total_commodity">
+						                  <h3 class="total_commodity_tit">商品合计</h3>
+						                  <div class="total_commodity_con">
+						                  <input type="hidden" name="utel"  value="{$user.mobile}"  >
+						                   
+						                       <p>总计：<span class="courses_amount">{$info.tcount}</span>件</p>
+						                       <p>合计：<span class="total">￥{$info.tprice}</span></p>
+						                      
+						                       <div class="clear"></div>
+						                  </div>
+						                  <div class="order_amount">
+						                      <p>订单总金额：<span>￥{$info.tprice}</span></p>
+						                    <eq name="info.status" values="0">
+						                      <a href="{$info.link}" style="margin-right:20px;">{$info.linkname}</a>
+						                     <else/>
+						                      <span class="other">{$info.linkname}</span>
+						                     </eq>
+						                   
+			                  			
+						                  </div>
+						                  <div class="clear"></div>
+						              </div> 
+						          </form>
+						          </div>
+						      </div>
+						    </div>
+
+		    			</div>
+					</div>
+				</div>
+		</div>
+	
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+</body>
+</html>

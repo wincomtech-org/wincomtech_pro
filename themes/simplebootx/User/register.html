@@ -1,0 +1,101 @@
+<tc_include file="Public:head" />
+</head>
+<body>
+  
+   <header class="nofllow_header">
+          <div class="main">
+              <div class=" lf"><a href="index.html">
+              		<img src="__ROOT__/data/upload{$company.logo.content}" alt=""></a>
+              </div>
+              <div class="lf login">
+              		<span>注册</span>
+              </div>
+             <div class=" rt"><a href="index.html">返回首页</a></div>
+          </div>
+    </header>
+     <section class="nofllow_content">
+         <div class="main">
+             <div class=" form_con register">
+                 <form action="{:U('user/register/doregister')}" method="post" accept-charset="utf-8" class="register_form" id="register" autocomplete   onSubmit='return  clickRegister()'>
+                     
+                        <div class="form_group">
+                            <span class="form_group_txt">手机号</span>
+                            <input type="text" name="mobile" value="" class="form_control" placeholder="请输入手机号码" required id="userName">
+                            <small class="help_block" data-bv-for="userName"   style="display:none;">请输入正确手机号</small>
+                        </div> 
+                        <div class="form_group">
+                            <span class="form_group_txt">密码</span>
+                            <input type="password" name="password" value="" class="form_control" placeholder="请输入密码" required  maxlength="30" minlength="6" id="password1">
+                            <small class="help_block" data-bv-for="password"   style="display:none;">密码必须为6-30个字母或数字_</small>
+                        </div>
+                        <div class="form_group">
+                            <span class="form_group_txt">请再次确认密码</span>
+                            <input type="password" name="repassword" value="" class="form_control" placeholder="请再次输入密码" required  maxlength="30" minlength="6" id="password2">
+                            <small class="help_block" data-bv-for="password"   style="display:none;">两次密码不一致</small>
+                        </div>
+                        <div class="row login_code">
+                            <div class="col_7">
+                                <div class="form_group">
+                                    <input type="text" name="verify" required class="form-control" placeholder="验证码"  id="verify" required>
+                                <small class="help_block" data-bv-validator="notEmpty" data-bv-for="code" data-bv-result="NOT_VALIDATED" style="display: none;">验证码不正确</small></div>
+                            </div>
+                            <div class="col_3 login_code_img">
+                               {:sp_verifycode_img('length=4&font_size=14&width=100&height=34&charset=1234567890&use_noise=1&use_curve=0')}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn_1">注册</button>
+                        <a href="{:leuu('user/login/index')}"  class="btn btn_2">已有账号，点击登录</a>
+                 </form>
+             </div>
+         </div>
+     </section>
+	<tc_include file="Public:footer" />
+ 
+<script>
+   
+function clickRegister(){
+	
+	 
+	 $('.help_block').hide();
+    var username=$('#userName').val();
+    var password1=$('#password1').val();
+    var password2=$('#password2').val();
+    var verify=$.trim($('#verify').val());
+    if(verify.length!=4){
+	   	  $('#verify').focus();
+	   	  $('#verify').siblings().show();
+	   	  return false; 
+    }
+    var pattern = /(^(13\d|15[^4\D]|17[13678]|18\d)\d{8}|170[^346\D]\d{7})$/; 
+  if(!pattern.test(username)){ 
+        $('#userName').focus();
+        $('#userName').siblings().show();
+        return false;
+    }else if(password1 == ""){
+        
+        $('#password1').focus();
+         $('#password1').siblings().show();
+         return false;
+    }else if( password1 != password2 ){
+       
+        $('#password2').focus();
+         $('#password2').siblings().show();
+         return false;
+    }
+  $.post("{:U('User/Register/ajaxreg')}",{'mobile':username,'password':password1,'verify':verify},function(data){
+	
+	  if(data.errno==1){
+			//返回上一页并刷新
+			self.location=document.referrer;
+		}else{
+			alert(data.error);
+			location.reload(true);
+		}
+	});
+  return false;
+  
+}
+</script>
+</body>
+</html>

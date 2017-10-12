@@ -1,0 +1,45 @@
+ <tc_include file="Public:head" />
+
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	
+	
+	<!-- 案例 -->
+	<section class="case">
+		
+		<div class="main">
+			<div class="brash_nav">
+				<ul class="brash_nav_list">
+					<li><a href="{:U('Index/index')}">首页</a>：</li>
+					<li><a href="{:U('list0')}">新闻动态</a></li>
+					<li><a href="#">新闻详情页</a></li>
+				</ul>
+			</div>
+			<div class="case_info_con">
+				<div class="case_info_con_tit">
+					<h3>{$info.name}</h3>
+					<p>
+						<span class="date">{$info.time|date="Y-m-d",###}</span>
+						<span class="laiyuan">{$info.author}</span>
+						<span class="view">浏览：{$info.count}次</span>
+					</p>
+					<div class="summary">
+						{$info.desc}
+					</div>
+				</div>
+				<div class="case_info_con_text">
+					{$info.content}
+					
+				</div>
+				
+			</div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+ 
+</body>
+</html>

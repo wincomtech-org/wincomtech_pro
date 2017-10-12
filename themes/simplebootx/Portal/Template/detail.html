@@ -1,0 +1,120 @@
+ <tc_include file="Public:head" />
+<style>
+ 
+ </style>
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	 
+	<!-- 案例 -->
+	<section class="case">
+		<div class="case_tit">
+			<div class="main">
+				<span class="left">{$info.name}</span>
+				<span class="right">Health food</span>
+			</div>	
+		</div>
+		<div class="main">
+			<div class="temp_det_tit">
+				<div class="img">
+					<div>
+						<img src="__ROOT__/data/upload/<empty name="info.pic">{$company.template.content}<else/>{$info.pic}</empty>" alt="">
+					</div>
+				</div>
+				<div class="txt">
+					<h3>{$info.name}</h3>
+					<p class="price">￥<span></span></p>
+					<form action="{:U('User/Cart/order_post')}" method="post" accept-charset="utf-8" class="temp_det_form" id="temp_det_form">
+						<div class="tech"> 技术支持
+							<foreach name="prices" item="vo" key="k">
+							<!--  name="price_id" value="{$vo.id}" -->
+							<if condition="$price_id eq $vo['id']">
+							<div class="left1  red ">
+							 
+								<input type="hidden" class="prices" value="{$vo.price}"/>
+								<input type="radio" checked name="price_id" value="{$vo.id}" id="radio{$k+1}" class="price_id">
+								<label for="radio{$k+1}">{$vo.aname}</label>
+							</div>
+							<else/>
+							<div class="left1 ">
+								 
+								<input type="hidden" class="prices" value="{$vo.price}"/>
+								<input type="radio" checked name="price_id" value="{$vo.id}" id="radio{$k+1}" class="price_id">
+								<label for="radio{$k+1}">{$vo.aname}</label>
+							</div>
+							</if>
+							</foreach>
+						 	 
+						</div>
+						<p class="buy_state">
+							 
+							<a  class="add_cart"  >加入购物车</a> 
+							<a href="javascript:$('form').submit();" class="buy"   >立即购买</a>
+							<a href="{$info.website}" class="view" target="_blank">查看演示</a>
+						</p>
+						
+					</form>
+				</div>
+			</div>
+			<div class="temp_det_con">
+				<p class="line"></p>
+				<h3>产品描述</h3>
+				<table>
+					<thead>
+						<tr>
+							<th colspan="3">产品信息</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>货号：{$info.id}</td>
+							<td>模板名称：{$info.name}</td>
+							<td>浏览量：{$info.count}</td>
+						</tr>
+						<tr>
+							<td>主题：{$info.theme}</td>
+							<td>色系：{$info.color}   </td>
+							 <td>  </td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="intro">
+					<h4>链接：<a href="{$info.website}" target="_blank">{$info.website}</a></h4>
+					<p>{$info.desc}</p>
+				</div>
+				<div class="intro_img">
+					{$info.content}
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+<script>
+var price=$('.txt .red').find('.prices').val(); 
+$('.txt').find('.price span').html(price);
+$('.buy_state .add_cart').click(function(){
+	 
+	if($('.header_right').find('.nofollow_denglu').length==0){
+		location.href = "{:U('user/login/index')}";
+		return false;
+	}
+	
+	var price_id=$(this).parents('.txt').find('.red .price_id').val();
+	 
+	$.get('{:U("User/Cart/insert")}',{'price_id':price_id},function(data){
+		 
+		if(data.errno==1){
+			alert('已添加购物车');
+		}else{
+			alert('添加购物车失败');
+		}
+	});
+	
+});
+</script>
+</body>
+</html>

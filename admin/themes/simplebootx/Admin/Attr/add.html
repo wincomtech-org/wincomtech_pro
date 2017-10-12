@@ -1,0 +1,32 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('index')}">属性列表</a></li>
+			<li class="active"><a>添加属性</a></li>
+			 
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('doAdd')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">名称</label>
+					<div class="controls">
+						<input  style="width:80%" type="text" name="name" value=" " required>
+					</div>
+				</div>
+				
+				
+			</fieldset>
+			<div class="form-actions">
+				 
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('SAVE')}</button>
+				<a class="btn" href="javascript:history.back(-1);">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	
+	 
+</body>
+</html>

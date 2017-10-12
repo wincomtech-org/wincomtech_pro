@@ -1,0 +1,54 @@
+ <tc_include file="Public:head" />
+
+ </head>
+ <body>
+  
+    <tc_include file="Public:header" />
+	 
+	<!-- 案例 -->
+	<section class="case">
+		<div class="case_tit">
+			<div class="main">
+				<span class="left">企业模板</span>
+				<span class="right">Enterprise template</span>
+			</div>	
+		</div>
+		<div class="main">
+			<div class="temp">
+				<ul class="temp_list">
+				<foreach name="tcates" item="vo">
+					<li class="temp_item "><a class="<if condition="$scid eq $vo['id']">active</if>" href="{:U('list0',array('cid'=>$vo['id']))}">{$vo.name}</a></li>
+				</foreach>
+				</ul>
+			</div>
+			<div class="case_con">
+				<ul class="case_list">
+				<foreach name="templates" item="vo">
+					<li class="case_list_item">
+						<div class="img">
+							<a href="{:U('detail',array('id'=>$vo['id']))}"><img src="__ROOT__/data/upload/<empty name="vo.pic">{$company.template.content}<else/>{$vo.pic}</empty>" alt=""></a>
+							<div class="search"><a href="{:U('detail',array('id'=>$vo['id']))}"><img src="__TMPL__Public/image/search.png" alt=""></a></div>
+						</div>
+						<div class="txt">
+							<div class="txt_top">
+								<div class="industry">{$vo.catename}</div>
+								<ul class="browse"><li class="computer"></li><li class="phone"></li></ul>
+
+							</div>
+							<p class="txt_bottom"><a href="{:U('detail',array('id'=>$vo['id']))}">{$vo.name}</a></p>
+						</div>
+					</li>
+				</foreach>
+				</ul>
+				<div class="page"><ul class="page_list">{$page}</ul></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 尾部 -->
+	<tc_include file="Public:footer" />
+	
+    <script src="__TMPL__Public/js/index.js"></script>
+    <script src="__TMPL__Public/js/lunbo.js"></script>
+</body>
+</html>

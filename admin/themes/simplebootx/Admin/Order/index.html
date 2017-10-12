@@ -1,0 +1,98 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('index')}">订单列表</a></li>
+			
+		</ul>
+        <form class="well form-search" method="post" action="{:U('index')}">
+        	<select name="sid" >
+            	<option value="99" >选择分类</option>
+            	<foreach name="status" item="vo" key="k">
+            		<option value="{$k}" <if condition="$sid eq $k">selected</if> >{$vo}</option>
+            	</foreach>
+            </select> 
+        		 订单名称:
+            <input type="text" name="name" style="width: 200px;" value="{$name}" placeholder="请输入 订单名称">
+            		 价格区间:
+            <input id="price1" type="number" name="price1" style="width: 100px;" value="{$price1}" min="0"  step="1" placeholder="最低价格">
+            --
+            <input id="price2" type="number" name="price2" style="width: 100px;" value="{$price2}" min="0" step="1" placeholder="最高价格">
+             时间:   <input class="js-datetime" type="text" id="input-datetime1" style="width: 195px;"   name="datetime1" value="{$time1}">
+            --
+            <input class="js-datetime" type="text" id="input-datetime2" style="width: 195px;"   name="datetime2" value="{$time2}">
+            
+           
+            <input type="submit" id="fsearch" class="btn btn-primary" value="搜索" />
+            <a class="btn btn-danger" href="{:U('index')}">清空</a>
+             <a class="btn btn-danger" href="{:U('excel')}">导出表格</a> 
+        </form>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th>订单编号</th>
+					<th>订单名称</th>
+					<th>价格</th>
+                    <th>提交时间</th>
+                     
+                    <th>联系人</th> 
+					<th>联系电话</th>
+					<th>下单ip</th>
+					<th>用户备注</th> 
+					<th>状态</th> 
+					<th>管理员备注</th> 
+                    <th>操作</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<php>$user_statuses=array("0"=>L('USER_STATUS_BLOCKED'),"1"=>L('USER_STATUS_ACTIVATED'),"2"=>L('USER_STATUS_UNVERIFIED'));</php>
+				<foreach name="list" item="vo">
+				<tr>
+					
+					<td>{$vo.oid}</td>
+                    <td>{$vo.name}</td>      
+                   
+                    <td>￥{$vo.tprice}</td>
+                    <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                    
+                   	<td>{$vo.uname}</td>
+                   	<td>{$vo.utel}</td>
+                   	<td>{$vo.ip}</td>
+                   	<td>{$vo.desc1|substr=0,20}</td>
+                   	<td>{$status[$vo['status']]}</td>
+                   	<td>{$vo.desc2|substr=0,20}</td>
+                    <td>
+                    <a href="{:U('info',array('oid'=>$vo['oid']))}">详情</a>
+                    
+                    </td>
+					
+				</tr>
+				</foreach>
+			</tbody>
+		</table>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script>
+	$('#fsearch').click(function(){
+		var price1=$.trim($('#price1').val());
+		var price2=$.trim($('#price2').val());
+		
+		if(price1=='' && price2==''){
+			return true;
+		}
+		if(price2=='' || price2==price1){
+			alert('价格区间不规范');
+			return false;
+		}
+		if(parseFloat(price1) > parseFloat(price2)){
+			alert('价格区间不规范');
+			return false;
+		}
+		
+	});
+	</script>
+</body>
+</html>

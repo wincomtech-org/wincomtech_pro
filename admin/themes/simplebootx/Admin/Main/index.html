@@ -1,0 +1,109 @@
+<admintpl file="header" />
+
+</head>
+<body>
+	<div class="wrap">
+	
+		<h4 class="well">订单统计,至今已完成订单总数{$count['order'][0]},单月统计如下：</h4>
+		<canvas id="order" width="800" height="400"></canvas>
+		<br/>
+		<h4 class="well">订单金额,至今已完成订单总额￥{$count['money'][0]},单月统计如下：</h4>
+		<canvas id="money" width="800" height="400"></canvas>
+		<br/>
+	 
+		<h4 class="well">注册用户统计,至今已有注册用户{$count['user'][0]},单月新增用户数如下：</h4>
+		<canvas id="user" width="800" height="400"></canvas>
+		<br/>
+		
+	 
+		
+		
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__TMPL__Public/assets/js/Chart/Chart-1.0.1.js"></script>
+	
+	<script>
+		var labels=new Array(12);
+		
+		var i=12;
+		<volist name="labels" id="vo" >
+			i--;
+			labels[i]='{$vo}';
+		</volist>
+		var order=new Array(12);
+		i=12;
+		<volist name="count.order" id="vo" offset="1" length='12'>
+			i--;
+			order[i]='{$vo}';
+		</volist>
+		
+		var money=new Array(12);
+		i=12;
+		<volist name="count.money" id="vo" offset="1" length='12'>
+			i--;
+			money[i]='{$vo}';
+		</volist>
+		var user=new Array(12);
+		i=12;
+		<volist name="count.user" id="vo" offset="1" length='12'>
+			i--;
+			user[i]='{$vo}';
+		</volist>
+		
+		var data_order = {
+			labels : labels,
+			datasets : [
+				{
+					lineItemName : "每月完成订单数量",
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					data : order
+				}
+			]
+		};
+		var data_money = {
+				labels : labels,
+				datasets : [
+					{
+						lineItemName : "每月完成订单金额",
+						fillColor : "rgba(151,187,205,0.5)",
+						strokeColor : "rgba(151,187,205,1)",
+						pointColor : "rgba(151,187,205,1)",
+						pointStrokeColor : "#fff",
+						data : money
+					}
+				]
+			};
+		var data_user = {
+				labels : labels,
+				datasets : [
+					{
+						lineItemName : "每月新增用户数",
+						fillColor : "rgba(220,220,220,0.5)",
+						strokeColor : "rgba(220,220,220,1)",
+						pointColor : "rgba(220,220,220,1)",
+						pointStrokeColor : "#fff",
+						data : user
+					}
+				]
+			};
+			
+		
+		
+		window.onload = function(){				
+			var ctx_order = document.getElementById("order").getContext("2d");
+			new Chart(ctx_order).Line(data_order);
+			var ctx_money = $('#money').get(0).getContext("2d");
+			new Chart(ctx_money).Line(data_money);
+		 
+			var ctx_user = $('#user').get(0).getContext("2d");
+			new Chart(ctx_user).Line(data_user);
+			 
+		 
+		}
+		
+	</script>
+</body>
+</html>
