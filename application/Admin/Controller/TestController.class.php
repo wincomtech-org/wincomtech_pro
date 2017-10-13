@@ -13,7 +13,7 @@ class TestController extends AdminbaseController {
 
    
     function index(){
-        logResult0('dddddddddddd');
+        echo 'test';
         
     }
   
