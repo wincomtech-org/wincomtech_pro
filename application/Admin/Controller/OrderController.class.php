@@ -65,7 +65,7 @@ class OrderController extends AdminbaseController {
         $list=$m->order('oid desc')->where($where)->limit($page->firstRow,$page->listRows)->select();
        //处理订单过期
        $list=orders_outtime($list);
-        
+      
         $this->assign('page',$page->show('Admin'));
         $this->assign('list',$list);
         session('order_where',$where);
@@ -79,7 +79,8 @@ class OrderController extends AdminbaseController {
         //查询条件
         $where=session('order_where','');
         $list=$m->order('oid desc')->where($where)->select();
-        
+        //处理订单过期
+        $list=orders_outtime($list);
         $this->create_xls($list,'order.xls');
         
         exit();
@@ -131,15 +132,15 @@ class OrderController extends AdminbaseController {
             $str=\PHPExcel_Cell_DataType::TYPE_STRING;
             $phpexcel->setActiveSheetIndex(0)
             ->setCellValueExplicit('A'.$num, $v['oid'],$str)
-            ->setCellValue('B'.$num, $v['name'])
+            ->setCellValueExplicit('B'.$num, $v['name'],$str)
             ->setCellValueExplicit('C'.$num, $v['tprice'],$str)
-            ->setCellValue('D'.$num, $v['uname'])
+            ->setCellValueExplicit('D'.$num, $v['uname'],$str)
             ->setCellValueExplicit('E'.$num, $v['utel'],$str)
             ->setCellValueExplicit('F'.$num, $time,$str)
             ->setCellValueExplicit('G'.$num, $v['ip'],$str)
-            ->setCellValue('H'.$num, $status)
-            ->setCellValue('I'.$num, $v['desc1'])
-            ->setCellValue('J'.$num, $v['desc2']);
+            ->setCellValueExplicit('H'.$num, $status,$str)
+            ->setCellValueExplicit('I'.$num, $v['desc1'],$str)
+            ->setCellValueExplicit('J'.$num, $v['desc2'],$str);
         }
         //在浏览器输出
         header('Content-Type: application/vnd.ms-excel');
