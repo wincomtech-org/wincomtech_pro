@@ -124,9 +124,9 @@ class OrderController extends AdminbaseController {
                     $status='已支付';
                     break;
                 case 2:
-                    $status=='已过期';
+                    $status='已过期';
                     break;
-                default:$status=='其他状态';
+                default:$status='其他状态';
             }
             //设置文本格式
             $str=\PHPExcel_Cell_DataType::TYPE_STRING;
