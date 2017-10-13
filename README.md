@@ -4,7 +4,7 @@
 
 
 信息：
-后台: http://tx.ext2/index.php?g=admin&m=public&a=login
+后台: http://hcpro.wincomtech.cn/index.php?g=admin&m=public&a=login
 super   111111
 
 前台（自由注册）
