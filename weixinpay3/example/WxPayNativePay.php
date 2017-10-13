@@ -1,6 +1,6 @@
 <?php
-
-require_once '/weixinpay3/lib/WxPayApi.php';
+include_once getcwd().'/weixinpay3/lib/WxPayApi.php';
+ 
 /**
  * 
  * 刷卡支付实现类

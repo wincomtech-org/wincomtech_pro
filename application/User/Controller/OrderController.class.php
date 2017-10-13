@@ -128,11 +128,7 @@ class OrderController extends MemberbaseController {
         include_once $dir.'/weixinpay3/example/WxPayNativePay.php';
         include_once $dir.'/weixinpay3/example/log.php';
         echo 'ddd111';
-        $dir='/home/apps/_git/wincomtech_pro';
-        include_once $dir.'/weixinpay3/lib/WxPayApi.php';
-        include_once $dir.'/weixinpay3/example/WxPayNativePay.php';
-        include_once $dir.'/weixinpay3/example/log.php';
-        echo 'ddd222';
+         
         $notify = new \NativePay();
         $input = new \WxPayUnifiedOrder();
         $input->SetBody($info['name']);
