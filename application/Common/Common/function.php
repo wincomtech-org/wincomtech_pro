@@ -1,7 +1,25 @@
 <?php
 
 
-
+/* 处理订单过期 */
+function orders_outtime($list){
+    //处理订单过期
+    $time=time()-C('OUTTIME');
+    $arr=array();
+    
+    foreach($list as $k=>$v){
+        if($v['status']==0 && $time>$v['create_time']){
+            $list[$k]['status']=2;
+            $arr[]=$v['oid'];
+        }
+    }
+    if(count($arr)>0){
+        
+        $map_oid['oid']=array('in',$arr);
+        M('Order')->where($map_oid)->data(array('status'=>2))->save();
+    }
+    return $list;
+}
 
 /*
  * 批量删除pic

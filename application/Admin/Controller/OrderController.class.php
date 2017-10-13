@@ -63,7 +63,8 @@ class OrderController extends AdminbaseController {
         
         $page = $this->page($total,10);
         $list=$m->order('oid desc')->where($where)->limit($page->firstRow,$page->listRows)->select();
-       
+       //处理订单过期
+       $list=orders_outtime($list);
         
         $this->assign('page',$page->show('Admin'));
         $this->assign('list',$list);

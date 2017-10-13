@@ -24,19 +24,7 @@ class OrderController extends MemberbaseController {
 		$data=array('status'=>2);
 		$where=array('oid'=>$v['oid']);
 		//遍历查看是否有支付过期
-		$outtime=C('OUTTIME');
-		foreach ($list as $k=>$v){
-		    if($v['status']==0){
-		       
-		        $time=$v['create_time']+$outtime-$time0;
-		        if($time<1){
-		            
-		            $m->where($where)->save($data);
-		            $list[$k]['status']=2;
-		        }
-		    }
-		    
-		}
+        $list=orders_outtime($list);
 		$this->assign('page',$page->show('Admin'));
 		$this->assign('list',$list);
 		 
@@ -55,20 +43,7 @@ class OrderController extends MemberbaseController {
         exit;
     }
     
-    /* //批量删除,暂时不用
-    public function dels(){
-        $oids=I('oids',array());
-        $row=M('Order')->where(array('id'=>array('in',$oids)))->save(array('status'=>4));
-        if($row>0){
-            $data=array('errno'=>1,'error'=>'修改成功');
-        }else{
-            $data=array('errno'=>0,'error'=>'修改失败');
-        }
-        $this->ajaxReturn($data);
-        exit;
-    } */
-   
-   
+     
     
     //进入订单详情页
     public function order(){
@@ -82,19 +57,13 @@ class OrderController extends MemberbaseController {
         $list=M('Oinfo')->where($where)->select();
         $outtime=C('OUTTIME');
         $info=M('Order')->where($where)->find();
-        /* if($info['status']==0){
-            $time=$info['create_time']+$outtime-time();
-            if($time<1 ){
-                M('Order')->where($where)->save(array('status'=>2));
-                $info['status']=2;
-            }
-        }
-         */
+         
         switch ($info['status']){
             case 0:
                 
                 $time=$info['create_time']+$outtime-time();
-                if($time<1){
+                if($time<5){
+                    $info['status']=2;
                     M('Order')->where($where)->save(array('status'=>2));
                     $info['link']='javascript:;';
                     $info['linkname']='已过期';
@@ -163,7 +132,7 @@ class OrderController extends MemberbaseController {
         $input->SetTime_expire(date("YmdHis", $outtime));
         $input->SetGoods_tag("test");
         //$input->SetNotify_url("http://127.0.0.1/huachuang/weixinpay3/notify.php");
-        $input->SetNotify_url("http://103.210.236.106:88/notify2.php");
+        $input->SetNotify_url("http://hcpro.wincomtech.cn/weixinpay3/notify.php");
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");
         $result = $notify->GetPayUrl($input);
