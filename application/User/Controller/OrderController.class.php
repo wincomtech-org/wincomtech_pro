@@ -119,9 +119,14 @@ class OrderController extends MemberbaseController {
          * 4、在支付成功通知中需要查单确认是否真正支付成功（见：notify.php）
          */ 
        
-        require_once getcwd().'/weixinpay3/lib/WxPayApi.php';
-        require_once getcwd().'/weixinpay3/example/WxPayNativePay.php';
-        require_once getcwd().'/weixinpay3/example/log.php';
+       $dir=getcwd();
+        var_dump($dir);
+        /* require_once $dir.'/weixinpay3/lib/WxPayApi.php';
+        require_once $dir.'/weixinpay3/example/WxPayNativePay.php';
+        require_once $dir.'/weixinpay3/example/log.php'; */
+        include $dir.'/weixinpay3/lib/WxPayApi.php';
+        include $dir.'/weixinpay3/example/WxPayNativePay.php';
+        include $dir.'/weixinpay3/example/log.php';
         $notify = new \NativePay();
         $input = new \WxPayUnifiedOrder();
         $input->SetBody($info['name']);
