@@ -6,10 +6,10 @@ use Think\Model;
 /* 
  * 数据库备份
  *  */
-class SQLController extends AdminbaseController {
+class SqlController extends AdminbaseController {
    
    private $end=";;--";
-   private $line="\n";
+   private $line=PHP_EOL;
    private $dir="/data/";
    //文件列表
    public function index(){
