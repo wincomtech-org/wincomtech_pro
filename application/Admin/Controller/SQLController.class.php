@@ -8,25 +8,50 @@ use Think\Model;
  *  */
 class SQLController extends AdminbaseController {
    
-   
-	public function backup(){
-	   
+   private $end=";;--";
+   private $line="\n";
+   private $dir="/data/";
+   //文件列表
+   public function index(){
+       $dir=getcwd().($this->dir);
+       $files=scandir($dir);
+       
+       foreach($files as $v){
+           
+           if(is_file($dir.$v) && substr($v,strrpos($v, '.'))=='.sqlsql'){
+               
+               $list[]=$v;
+           }
+           
+       }
+       rsort($list);
+       $this->assign('list',$list);
+       $this->display();
+       exit();
+       
+   }
+	public function add(){
+	    
 	    $dname=C('DB_NAME');
 	    
 	    $m=new model();
 	    $mysql="";
+	    //结束符
+	    $line=$this->line;
+	    $end=($this->end).$line;
+	    $dir=getcwd().($this->dir);
 	    //得到所有表
 	    $tables=$m->query("show tables");
 	    
 	    foreach($tables as $t){
 	        $table=$t['tables_in_'.$dname];
 	       
-	        $mysql.= "DROP TABLE IF EXISTS `" . $table . "`;\n";  
+	        $mysql.= "DROP TABLE IF EXISTS `" . $table . "`".$end;  
 	        $creat=$m->query("show create table $table");
 	        
 	        $sql=$creat[0];
 	        //创建数据库表结构语句
-	        $mysql.=$sql['create table'].";\r\n";
+	        $mysql.=$sql['create table'].$end;
 	        
 	        $insert=$m->query("select * from $table");
 	        //组装insert语句
@@ -46,75 +71,97 @@ class SQLController extends AdminbaseController {
 	                $vals=array_map('addslashes',$vals);
 	                $vals=join("','",$vals);
 	                $vals="'".$vals."'";
-	                $mysql.="insert into $table($keys) values \n ($vals)";
+	                $mysql.="insert into $table($keys) values $line ($vals)";
 	            }else{
 	                
 	                $vals=array_values($data);
 	                $vals=array_map('addslashes',$vals);
 	                $vals=join("','",$vals);
 	                $vals="'".$vals."'";
-	                $mysql.=",\r\n($vals)";
+	                $mysql.=",$line($vals)";
 	            }
 	        }
 	        if(count($insert)>=1){
-	            $mysql.=";\r\n";
+	            $mysql.=$end;
 	        }
 	        
 	    }
 	    //存储在data文件夹下
-	    $filename=getcwd().'/data/'.$dname.date('Ymd').".sql";
-        //$filename="C://".$dname.date('Ymd-His').".sql";
-	    $fp = fopen($filename,'w');
+	    $filename=$dir.$dname.date('Ymd-His').".sqlsql";
+        
+	    $fp = fopen($filename,'wb');
+	    if(!$fp){
+	        $this->error('文件打开失败',U('index'));
+	        
+	        exit;
+	    }
 	    fputs($fp,$mysql);
 	    fclose($fp);
-	    echo "数据备份成功,生成备份文件".$filename;
-	   /*  $url=U('restore');
-	    echo $url;
-	    echo "<a href='".$url."'>点击备份</a>"; */
+	    $this->success('数据备份成功',U('index'));
+	    
 	    exit();
 	    
 	}
 	
-	//数据库还原--未完善
+	
+	//数据库还原 
 	public function restore()
 	{
+	     
+	    $filename=I('id','');
 	    $dname=C('DB_NAME');
+	    $m=new \mysqli(C('DB_HOST'), C('DB_USER'), C('DB_PWD'), $dname, C('DB_PORT'));
+	    $m->set_charset('utf8');
 	    
-	    $m=new model();
 	    //指定要恢复的MySQL备份文件路径,请自已修改此路径
-	    $fname=getcwd().'/data/'.$dname.date('Ymd').".sql";
+	    $dir=getcwd().($this->dir);
+	    $fname=$dir.$filename;
 	  
 	    if(file_exists($fname)){
+	   
 	        $sql_value="";
-	        $cg=0;
-	        $sb=0;
 	        $sqls=file($fname);
+	        
 	        foreach($sqls as $sql){
 	            $sql_value.=$sql;
 	        }
-	        $a=explode(";\r\n", $sql_value);
 	        
+	        $a=explode(($this->end).($this->line), $sql_value); 
+	       
 	        $total=count($a)-1;
-	        for($i=0;$i<$total;$i++){
+	        for($i=0;$i<$total;$i++){ 
 	            //执行命令
-	            if($m->query($a[$i])){
-	                $cg+=1;
-	            }else{
-	                $sb+=1;
-	                $sb_command[$sb]=$a[$i];
-	            }
+	            $m->query($a[$i]); 
 	        }
-	        $arr['cg'] = $cg;
-	        $arr['total'] = $total;
-	        $arr['sb'] = $sb;
-	        // 显示错误信息
-	        var_dump($arr);
-	        
+	      
+	        $this->success('数据已还原',U('index'));
 	    }else{
-	        echo 'MySQL备份文件不存在，请检查文件路径是否正确';
+	        $this->error('MySQL备份文件不存在，请检查文件路径是否正确',U('index'));
 	    }
 	    exit();
 	} 
-	
+	//删除备份
+	public function del(){
+	    $file=I('id');
+	    if(unlink(getcwd().($this->dir).$file)===true){
+	        $this->success('备份已删除');
+	    }else{
+	        $this->error('删除失败');
+	    } 
+	    
+	}
+	//删除备份
+	public function dels(){
+	    $files=I('ids');
+	    $dir=getcwd().($this->dir);
+	    foreach($files as $file){
+	        if(unlink($dir.$file)===false){
+	            $this->error('删除失败'); 
+	        } 
+	    }
+	    $this->success('备份已删除');
+	    
+	    
+	}
     
 }
