@@ -27,6 +27,7 @@ if(isset($_REQUEST["out_trade_no"]) && $_REQUEST["out_trade_no"] != ""){
          if($info['status']==1){
              Log::DEBUG("return-检测到订单:".$out_trade_no.'已支付');
              echo $result['trade_state'];
+             $mysqli->close();
              exit();
              
          }
@@ -49,5 +50,7 @@ if(isset($_REQUEST["out_trade_no"]) && $_REQUEST["out_trade_no"] != ""){
         
     } 
     echo $result['trade_state'];
+    $mysqli->close();
+   
     exit();
 }

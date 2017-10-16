@@ -37,6 +37,7 @@ class PayNotifyCallBack extends WxPayNotify
 		    $info=$res->fetch_assoc();
 		    if($info['status']==1){
 		        Log::DEBUG("订单:".$out_trade_no.'已支付过');
+		        $mysqli->close();
 		        return true;
 		         
 		    }
@@ -54,9 +55,10 @@ class PayNotifyCallBack extends WxPayNotify
 		    }else{
 		        Log::DEBUG('订单'.$out_trade_no.'支付成功,但状态修改失败'); 
 		    }
+		    $mysqli->close();
 		    return true;
 		}  
-		 
+		$mysqli->close();
 		return false;
 	}
 	
