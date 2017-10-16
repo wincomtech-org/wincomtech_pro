@@ -6,7 +6,7 @@ error_log("notify-weixin:".date('Y-m-d H:i:s')."\r\n",3,'weixin-error.log');
 require_once "lib/WxPayApi.php";
 require_once 'lib/WxPayNotify.php';
 require_once 'log.php';
-
+error_log($_REQUEST["out_trade_no"]."验证开始\r\n",3,'weixin-error.log');
 //初始化日志
 $logHandler= new CLogFileHandler("logs/".date('Y-m-d').'.log');
 $log = Log::Init($logHandler, 15);
@@ -25,6 +25,9 @@ class PayNotifyCallBack extends WxPayNotify
 			&& $result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
+		    error_log("验证成功\r\n",3,'weixin-error.log');
+		    error_log(json_encode($result)."\r\n",3,'weixin-error.log');
+		    error_log("订单号".$result['out_trade_do']."\r\n",3,'weixin-error.log');
 			return true;
 		}
 		return false;
@@ -52,10 +55,8 @@ class PayNotifyCallBack extends WxPayNotify
 Log::DEBUG("begin notify");
 $notify = new PayNotifyCallBack();
 $notify->Handle(false); 
-$returnValues = $notify->GetValues();
-error_log($returnValues['transaction_id']."验证开始\r\n",3,'weixin-error.log');
-if($notify->NotifyProcess($returnValues)){
-    error_log($returnValues['transaction_id']."验证成功\r\n",3,'weixin-error.log');
-}
+ 
+
+
  
 
