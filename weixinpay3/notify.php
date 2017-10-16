@@ -1,19 +1,10 @@
 <?php
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
-error_log("notify:".date('Y-m-d H:i:s')."\r\n",3,'error.log');
-$str='post-';
-foreach ($_POST as $k=>$v){
-    $str.=$k.'--'.$v;
-}
-error_log($str."\r\n",3,'error.log');
-$str='get-';
-foreach ($_GET as $k=>$v){
-    $str.=$k.'--'.$v;
-}
-error_log($str."\r\n",3,'error.log');
-/* require_once "lib/WxPay.Api.php";
-require_once 'lib/WxPay.Notify.php';
+error_log("notify-weixin:".date('Y-m-d H:i:s')."\r\n",3,'weixin-error.log');
+
+require_once "lib/WxPayApi.php";
+require_once 'lib/WxPayNotify.php';
 require_once 'log.php';
 
 //初始化日志
@@ -60,4 +51,11 @@ class PayNotifyCallBack extends WxPayNotify
 
 Log::DEBUG("begin notify");
 $notify = new PayNotifyCallBack();
-$notify->Handle(false); */
+$notify->Handle(false); 
+$returnValues = $notify->GetValues();
+error_log($returnValues['transaction_id']."验证开始\r\n",3,'weixin-error.log');
+if($notify->NotifyProcess($returnValues)){
+    error_log($returnValues['transaction_id']."验证成功\r\n",3,'weixin-error.log');
+}
+ 
+
