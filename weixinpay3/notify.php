@@ -23,6 +23,7 @@ class PayNotifyCallBack extends WxPayNotify
 			&& $result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
+		   
 		   //成功后判断数据库订单状态
 		   //保存支付信息s
 		    $time=time();
@@ -30,7 +31,7 @@ class PayNotifyCallBack extends WxPayNotify
 		    $trade_no=$result["transaction_id"];
 		    $buyer_id=$result["open_id"];
 		    $total_fee=bcdiv($result['total_fee'],100,2);
-		    
+		    Log::DEBUG("订单:".$out_trade_no.'已校验支付，开始修改订单状态');
 		    $sql="select * from hc_order where oid='{$out_trade_no}' limit 1";
 		    $res=$mysqli->query($sql);
 		    $info=$res->fetch_assoc();

@@ -18,7 +18,7 @@ if(isset($_REQUEST["out_trade_no"]) && $_REQUEST["out_trade_no"] != ""){
    
     $result=WxPayApi::orderQuery($input);
     if($result['trade_state']=='SUCCESS'){
-        Log::DEBUG("return-订单:".$out_trade_no);
+        Log::DEBUG("return-订单:".$out_trade_no.'已校验支付，开始修改订单状态');
          $time=time();
           //查询是否已修改了状态
          $sql="select * from hc_order where oid='{$out_trade_no}' limit 1";
