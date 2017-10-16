@@ -7,5 +7,3 @@
 data/runtime/
 !/data/index.html
 !/data/runtime/index.html
-alipay/config.php
-weixinpay3/lib/WxPayConfig.php

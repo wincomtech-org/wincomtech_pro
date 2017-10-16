@@ -1,12 +1,10 @@
 <?php
 ini_set('date.timezone','Asia/Shanghai');
 error_reporting(E_ERROR);
-error_log("notify-weixin:".date('Y-m-d H:i:s')."\r\n",3,'weixin-error.log');
-
 require_once "lib/WxPayApi.php";
 require_once 'lib/WxPayNotify.php';
 require_once 'log.php';
-error_log($_REQUEST["out_trade_no"]."验证开始\r\n",3,'weixin-error.log');
+require_once 'config.php';
 //初始化日志
 $logHandler= new CLogFileHandler("logs/".date('Y-m-d').'.log');
 $log = Log::Init($logHandler, 15);
@@ -25,11 +23,39 @@ class PayNotifyCallBack extends WxPayNotify
 			&& $result["return_code"] == "SUCCESS"
 			&& $result["result_code"] == "SUCCESS")
 		{
-		    error_log("验证成功\r\n",3,'weixin-error.log');
-		    error_log(json_encode($result)."\r\n",3,'weixin-error.log');
-		    error_log("订单号".$result['out_trade_do']."\r\n",3,'weixin-error.log');
-			return true;
-		}
+		   //成功后判断数据库订单状态
+		   //保存支付信息s
+		    $time=time();
+		    $out_trade_no=$result["out_trade_no"];
+		    $trade_no=$result["transaction_id"];
+		    $buyer_id=$result["open_id"];
+		    $total_fee=bcdiv($result['total_fee'],100,2);
+		    
+		    $sql="select * from hc_order where oid='{$out_trade_no}' limit 1";
+		    $res=$mysqli->query($sql);
+		    $info=$res->fetch_assoc();
+		    if($info['status']==1){
+		        Log::DEBUG("订单:".$out_trade_no.'已支付过');
+		        return true;
+		         
+		    }
+		    //修改订单状态
+		    $sql="update hc_order set status=1,pay_time='{$time}' where oid='{$out_trade_no}'";
+		    $mysqli->query($sql);
+		    if( $mysqli->affected_rows===1){
+		        //保存支付信息
+		        $sql="insert into hc_pay(tid,user,oid,type,fee,time)
+		        values('{$trade_no}','{$buyer_id}',
+		        '{$out_trade_no}',2,{$total_fee},'{$time}')";
+		        $mysqli->query($sql);
+		        Log::DEBUG("订单:".$out_trade_no.'支付成功');
+		        
+		    }else{
+		        Log::DEBUG('订单'.$out_trade_no.'支付成功,但状态修改失败'); 
+		    }
+		    return true;
+		}  
+		 
 		return false;
 	}
 	
