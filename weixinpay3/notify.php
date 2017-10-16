@@ -4,7 +4,7 @@ error_reporting(E_ERROR);
 require_once "lib/WxPayApi.php";
 require_once 'lib/WxPayNotify.php';
 require_once 'log.php';
-require_once 'config.php';
+
 //初始化日志
 $logHandler= new CLogFileHandler("logs/".date('Y-m-d').'.log');
 $log = Log::Init($logHandler, 15);
@@ -14,6 +14,7 @@ class PayNotifyCallBack extends WxPayNotify
 	//查询订单
 	public function Queryorder($transaction_id)
 	{
+	    require_once 'config.php';
 		$input = new WxPayOrderQuery();
 		$input->SetTransaction_id($transaction_id);
 		$result = WxPayApi::orderQuery($input);
