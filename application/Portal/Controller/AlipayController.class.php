@@ -61,13 +61,14 @@ class AlipayController extends HomebaseController{
 	 }
 	 
 	 public function return0(){
-	     
+	     $log='alipay.log';
+	     error_log(date('Y-m-d H:i:s').':订单开始return0'."\r\n",3,$log);
 	     //计算得出通知验证结果
 	     $alipay_config=C("ALIPAY_CONFIG");
 	     vendor('Alipay.AlipayNotify');
 	     $alipayNotify = new \AlipayNotify($alipay_config);
 	     $verify_result = $alipayNotify->verifyReturn();
-	     $log='alipay.log';
+	     error_log(date('Y-m-d H:i:s').':订单开始return'."\r\n",3,$log);
 	     if($verify_result) {//验证成功
 	         //请在这里加上商户的业务逻辑程序代码
 	         
@@ -107,7 +108,8 @@ class AlipayController extends HomebaseController{
 	     exit;
 	 }
 	 public function notify0(){
-	      
+	     $log='alipay.log';
+	     error_log(date('Y-m-d H:i:s').':订单开始notify0'."\r\n",3,$log);
 	     //计算得出通知验证结果
 	     $alipay_config=C("ALIPAY_CONFIG");
 	     vendor('Alipay.AlipayNotify');
