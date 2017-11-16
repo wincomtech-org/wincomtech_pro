@@ -133,7 +133,7 @@ class AlipayController extends HomebaseController{
 	         logResult('alipay-notify-fail');
 	        
 	     }
-	 
-	 
+	 	exit;
+	 }
    
 }
