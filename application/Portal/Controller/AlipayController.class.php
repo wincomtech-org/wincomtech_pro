@@ -5,6 +5,9 @@ use Common\Controller\HomebaseController;
 /*
  * alipay  */
 class AlipayController extends HomebaseController{
+    public function send0(){
+        echo "<a href='http://hcpro.wincomtech.cn/Portal/Alipay/send.php'>send</a>";
+    }
 	 public function send(){
 	      
 	     $time=time();
@@ -133,7 +136,7 @@ class AlipayController extends HomebaseController{
 	         logResult('alipay-notify-fail');
 	        
 	     }
-	 	exit;
 	 }
+	 
    
 }
