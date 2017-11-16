@@ -56,7 +56,7 @@ class AlipayController extends HomebaseController{
 	     $alipaySubmit = new \AlipaySubmit($alipay_config);
 	     
 	     $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
-	     error_log('cont:'.$html_text."\r\n",3,'alipay.log');
+	    
 	     echo $html_text;
 	 }
 	 
@@ -114,10 +114,11 @@ class AlipayController extends HomebaseController{
 	     $alipayNotify = new \AlipayNotify($alipay_config);
 	     $verify_result = $alipayNotify->verifyNotify();
 	     $log='alipay.log';
-	     logResult('alipay-notify-start');
+	     error_log(date('Y-m-d H:i:s').':订单开始notify'."\r\n",3,$log);
 	     
 	     if($verify_result) {//验证成功
-	         logResult('alipay-notify-success00');
+	       
+	         error_log(date('Y-m-d H:i:s').':alipay-notify-success00'."\r\n",3,$log);
 	         $notify_data = $alipayNotify->decrypt($_POST['notify_data']);
 	         $doc = new \DOMDocument();
 	         $doc->loadXML($notify_data);
@@ -130,14 +131,14 @@ class AlipayController extends HomebaseController{
 	             $trade_status = $doc->getElementsByTagName( "trade_status" )->item(0)->nodeValue;
 	             if($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
 	                 //以下是数据库操作代码
-	                 logResult('alipay-notify-success');
+	                 error_log(date('Y-m-d H:i:s').':alipay-notify-success'."\r\n",3,$log);
 	                 //数据库操作结束
 	                 
 	             }
 	         }
 	     }
 	     else {
-	         logResult('alipay-notify-fail');
+	         error_log(date('Y-m-d H:i:s').':alipay-notify-failed'."\r\n",3,$log);
 	        
 	     }
 	 }
