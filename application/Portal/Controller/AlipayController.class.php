@@ -7,6 +7,8 @@ use Common\Controller\HomebaseController;
 class AlipayController extends HomebaseController{
     public function send0(){
         echo "<a href='http://hcpro.wincomtech.cn/Portal/Alipay/send.php'>send</a>";
+        $url=U('Portal/Alipay/send');
+        echo "<a href='.$url.'>send-url</a>";
     }
 	 public function send(){
 	      
