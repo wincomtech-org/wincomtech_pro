@@ -101,10 +101,7 @@ class AlipayController extends HomebaseController{
 	         echo '验证失败';
 	         
 	     }
-	     $index=U('User/Info/index');
-	     echo '<a href="'.$index.'">返回我的</a>';
 	     
-	    
 	     exit;
 	 }
 	 public function notify0(){
