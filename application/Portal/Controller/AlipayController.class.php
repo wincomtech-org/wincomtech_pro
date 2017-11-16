@@ -12,7 +12,7 @@ class AlipayController extends HomebaseController{
         echo "<a href='".$url."'>send-url</a>";
     }
 	 public function send(){
-	     logResult('send');
+	      
 	     error_log('send:'."\r\n",3,'alipay.log');
 	     $time=time();
 	     $money=66;
