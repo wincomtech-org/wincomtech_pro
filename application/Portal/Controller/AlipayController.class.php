@@ -9,7 +9,7 @@ class AlipayController extends HomebaseController{
         logResult('send0');
         echo "<a href='http://hcpro.wincomtech.cn/Portal/Alipay/send.php'>send</a>";
         $url=U('Portal/Alipay/send');
-        echo "<a href='.$url.'>send-url</a>";
+        echo "<a href='".$url."'>send-url</a>";
     }
 	 public function send(){
 	     logResult('send');
