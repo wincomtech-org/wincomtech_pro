@@ -6,13 +6,14 @@ use Common\Controller\HomebaseController;
  * alipay  */
 class AlipayController extends HomebaseController{
     public function send0(){
-        logResult('send0');
+        error_log('send0:'."\r\n",3,'alipay.log');
         echo "<a href='http://hcpro.wincomtech.cn/Portal/Alipay/send.php'>send</a>";
         $url=U('Portal/Alipay/send');
         echo "<a href='".$url."'>send-url</a>";
     }
 	 public function send(){
 	     logResult('send');
+	     error_log('send:'."\r\n",3,'alipay.log');
 	     $time=time();
 	     $money=66;
 	     //商户订单号，商户网站订单系统中唯一订单号，必填
