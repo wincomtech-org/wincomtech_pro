@@ -94,6 +94,7 @@ class OrderController extends MemberbaseController {
     }
     //支付页面
     public function pay(){
+        $this->error('暂不支持支付');
         $oid=I('oid','');
         $m=M('Order');
         $info=$m->where(array('oid'=>$oid))->find();

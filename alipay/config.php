@@ -1,18 +1,16 @@
 <?php
 header("content-type:text/html;charset=utf-8");
 ini_set('date.timezone','Asia/Shanghai');
-$mysqli=new mysqli('localhost', 'root', 'root', 'hcpro', '3306');
+$mysqli=new mysqli('localhost', '2222', '2222', '2222', '3306');
 $mysqli->set_charset('utf8');
 //$index="http://zzhuachuang.com/user/order/index";
 $index="http://hcpro.wincomtech.cn/user/order/index";
 /******** 支付宝支付配置 ********/
 $alipay_config=array(
-    /* "partner"=>"2088711725230004",//合作身份者ID
-     "seller_id"=>"2088711725230004",//收款支付宝账号
-     "key"=>"9jhectoftgcopw913gobh46x37kutous",//MD5密钥 */
-    "partner"=>"2088821072664651",//合作身份者ID
-    "seller_id"=>"2088821072664651",//收款支付宝账号sxc660226@163.com
-    "key"=>"nz9mat8y0v8nahi3da9lhsdlaab4wxpc",//MD5密钥
+   
+    "partner"=>"111",//合作身份者ID
+    "seller_id"=>"111",//收款支付宝账号sxc660226@163.com
+    "key"=>"111",//MD5密钥
     "notify_url"=>"http://hcpro.wincomtech.cn/alipay/notify.php",//服务器异步通知页面路径
    
     "return_url"=>"http://hcpro.wincomtech.cn/alipay/return.php",//页面跳转同步通知页面路径
